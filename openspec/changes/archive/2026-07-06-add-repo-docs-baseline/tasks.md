@@ -47,4 +47,4 @@
 
 - [x] 5.1 Re-run mechanical checks from 3.1: zero findings on all 8
       participating repos (2026-07-06)
-- [ ] 5.2 Archive this change
+- [x] 5.2 Archive this change — archived as changes/archive/2026-07-06-add-repo-docs-baseline; spec promoted to openspec/specs/docs-quality/
