@@ -1,0 +1,19 @@
+# Python / uv
+__pycache__/
+*.pyc
+.venv/
+uv.lock
+
+# Editor / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Secrets — never commit
+.env
+.env.*
+*.pem
+*.key
+*_rsa
+*.agekey
