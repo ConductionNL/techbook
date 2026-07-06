@@ -20,8 +20,9 @@ Uitvoering van openspec change `add-repo-docs-baseline`, secties 1–3
   (react-base, Nextcloud-base, cluster-infra, KeyCloak, talos,
   cluster-config, monitoring, openwoo-app-config): 0/63 pagina's met
   front-matter, nergens CODEOWNERS/index.md, 2 repos met docs buiten
-  root-`/docs`, 5 duplicatie-clusters (handmatig), plus signalering
-  `age.agekey` in monitoring (buiten scope, opvolgen).
+  root-`/docs`, 5 duplicatie-clusters (handmatig). Signalering
+  `age.agekey` in monitoring gecontroleerd: niet getrackt, niet in de
+  historie, gedekt door .gitignore — vals alarm, geen actie.
 - `docs/index.md` + `CODEOWNERS` — techbook voldoet aan het eigen
   contract (script geeft 0 bevindingen op techbook).
 - README herschreven (was één regel) naar actuele scope; openspec
