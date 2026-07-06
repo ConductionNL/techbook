@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-07-06 (nacht, vervolg) — changes 4-7 gespecct, README-verduidelijking
+
+- Northstar verduidelijkt in openspec/project.md: pijler 1 omvat ook de
+  functionaliteit van de repo zelf (unit tests / dry-runs als tweede
+  pre-push gate) — nieuwe change 6 add-repo-verify-gates ertussen,
+  agent-guardrails schuift naar 7.
+- Vier changes gespecct (proposal + spec-delta + tasks):
+  add-portal-access-split (4), add-docs-mcp (5), add-repo-verify-gates
+  (6), add-agent-guardrails (7).
+- README's van techbook en handbook openen nu met wat de repo wél/níet
+  is en verwijzen naar elkaar (feedback: verschil was verwarrend).
+
 ## 2026-07-06 (nacht) — unit tests, hook-uitrol naar alle 8, northstar
 
 - `tests/test_check_docs_contract.py`: 21 unit tests voor het

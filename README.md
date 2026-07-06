@@ -1,9 +1,11 @@
 # techbook
 
-Werkrepo voor het technische documentatie-handboek van Conduction. Het
-handboek bundelt de `/docs` van componenten/repos in één doorzoekbaar
-portaal — content wordt geaggregeerd, nooit gekopieerd; elke repo blijft
-de bron van waarheid.
+**Dit is de werkplaats, niet de site.** Hier wonen het plan (openspec),
+het docs-contract met audit en check-script, en de pre-push hook die
+alle deelnemende repos gebruiken. **De gepubliceerde documentatiesite
+is de repo [`handbook`](https://codeberg.org/Conduction/handbook)** —
+zoek je docs, ga daarheen; wil je de regels of tooling wijzigen, dan
+zit je hier goed.
 
 ## Inhoud
 

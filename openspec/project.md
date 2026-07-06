@@ -34,18 +34,19 @@ diverging across repos, and no periodic control on accuracy.
   everything explainable in an ISO 27001 audit.
 - Files ≤ 200 lines.
 
-## Northstar (recorded 2026-07-06)
+## Northstar (recorded 2026-07-06, clarified same day)
 
-1. **Working on a repo means staying in sync with its docs** — enforced
-   mechanically before every push (the `docs-contract` pre-push gate,
-   itself covered by unit tests) and substantively through docs-as-code
-   review plus the freshness gate.
+1. **Working on a repo means pushing only what is verified** — before
+   every push two gates: the docs are in sync (`docs-contract` gate) AND
+   the repo's own functionality passes (unit tests / dry-runs — each
+   repo exposes a fast verify entrypoint). Both gates are themselves
+   covered by tests.
 2. **The handbook is THE entry point for agents**, exposed via MCP:
    agents use the aggregated, current documentation as ground truth per
    component.
 3. **Per component, agents/skills/tools are locked down for idempotent
    operation** — recorded guardrails per repo, so repeated agent runs
-   converge instead of drift.
+   converge instead of drift. Estimated ~1 day per component.
 
 ## Change dependency order
 
@@ -54,13 +55,15 @@ diverging across repos, and no periodic control on accuracy.
 2. `add-handbook-portal` — aggregation portal (depends on 1)
 3. `add-docs-drift-gates` — CI enforcement (depends on 2)
 
-Planned next (northstar; propose in this order once 2–3 are archived):
+Planned next (northstar; specs drafted 2026-07-06):
 
 4. `add-portal-access-split` — hybrid portal (decision 2026-07-06,
    option 3): public site for open components on Codeberg Pages,
-   internal full site behind oauth2-proxy → Keycloak on the cluster
-   (house pattern from openwoo-app-config's webgui). Until this lands,
-   private-repo docs (KeyCloak) stay out of the public import list.
+   internal full site behind oauth2-proxy → Keycloak on the cluster.
+   Until this lands, private-repo docs (KeyCloak) stay out of the
+   public import list.
 5. `add-docs-mcp` — expose the handbook via MCP as the agent entry point.
-6. `add-agent-guardrails` — per-component agents, skills and tools with
-   idempotency guarantees.
+6. `add-repo-verify-gates` — per-repo functional pre-push gate (unit
+   tests / dry-runs), same pre-commit mechanism as the docs gate.
+7. `add-agent-guardrails` — per-component agents, skills and tools with
+   idempotency guarantees (depends on 5 and 6).
