@@ -29,15 +29,22 @@
 
 ## 4. Remediation (one PR per repo)
 
-- [ ] 4.1 Add front-matter to every page (reviewing content while adding —
-      the review IS the `last_reviewed` date)
-- [ ] 4.2 Split mixed-type pages; add cross-links
-- [ ] 4.3 Replace duplicated content with links to canonical pages
-- [ ] 4.4 Add CODEOWNERS rule for `/docs`
-- [ ] 4.5 Ensure each `/docs` has an `index.md` (portal entry point later)
+- [x] 4.1 Add front-matter to every page (reviewing content while adding —
+      the review IS the `last_reviewed` date; Nextcloud-base pages not
+      deep-reviewed kept the team's existing verification date 2026-06-23)
+- [x] 4.2 Split mixed-type pages; add cross-links — KeyCloak SSO guide
+      split (endpoints reference + how-to), Nextcloud-base OPERATIONS
+      split per task, openwoo-app-config README split into docs/;
+      monitoring runbook template accepted as recorded house style
+- [x] 4.3 Replace duplicated content with links to canonical pages —
+      react/Nextcloud tenant & bootstrap docs turned out platform-specific
+      parallels, not duplicates: cross-linked instead; Argo CD/SOPS/mirror
+      clusters deferred to the handbook org pages (change 2)
+- [x] 4.4 Add CODEOWNERS rule for `/docs` (all 8 repos)
+- [x] 4.5 Ensure each `/docs` has an `index.md` (all 8 repos)
 
 ## 5. Verify
 
-- [ ] 5.1 Re-run mechanical checks from 3.1: zero findings on participating
-      repos
+- [x] 5.1 Re-run mechanical checks from 3.1: zero findings on all 8
+      participating repos (2026-07-06)
 - [ ] 5.2 Archive this change
