@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-07-06 (nacht) — unit tests, hook-uitrol naar alle 8, northstar
+
+- `tests/test_check_docs_contract.py`: 21 unit tests voor het
+  contract-script (front-matter-parsing, repo-checks, duplicaat-detectie,
+  exit-codes) — allemaal groen.
+- `scripts/rollout_precommit_hook.sh` (shellcheck-schoon, idempotent):
+  rolt de docs-contract pre-push gate uit; gedraaid over alle 8 repos
+  (7 automatisch, talos handmatig gemerged in bestaande config;
+  let op: KeyCloak-commit staat op de feature-branch).
+- `openspec/project.md`: northstar vastgelegd (pre-push sync-gate met
+  tests; handboek als agent-ingang via MCP; per component idempotente
+  agents/skills/tools) + geplande changes 4-6 (portal-access-split,
+  docs-mcp, agent-guardrails).
+
 ## 2026-07-06 (avond, later) — docs-contract als pre-push hook exporteerbaar
 
 - `.pre-commit-hooks.yaml`: hook `docs-contract` (draait
