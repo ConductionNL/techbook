@@ -5,9 +5,10 @@ owner: mark
 
 # Documentatie-conventies (het docs-contract)
 
-> **Canonieke thuisbasis:** deze pagina verhuist naar
-> `handbook/docs/org/conventies.md` zodra het handboek-portaal bestaat
-> (openspec change `add-handbook-portal`). Tot die tijd is dit de bron.
+> **Canonieke thuisbasis:** `Conduction/handbook` →
+> `docs/org/conventies.md` (in het portaal onder Organisatie →
+> Conventies). Deze kopie in techbook blijft alleen staan als context
+> bij de audit-tooling; wijzig het contract in de handbook-repo.
 
 Dit contract geldt voor elke repo die meedoet aan het handboek. Het
 portaal aggregeert de `/docs` van deelnemende repos; het contract zorgt

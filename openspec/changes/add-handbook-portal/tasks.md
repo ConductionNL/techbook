@@ -2,31 +2,39 @@
 
 ## 1. Repo setup
 
-- [ ] 1.1 Create `Conduction/handbook` and `Conduction/pages` on Codeberg
-- [ ] 1.2 Resolve design open question 2 (Pages serving convention) and
-      question 3 (site URL) — record answers in design.md
-- [ ] 1.3 Create scoped tokens: `DOCS_READ_TOKEN` (org read-only),
-      `PAGES_TOKEN` (write on pages repo); store as handbook repo secrets
+- [ ] 1.1 Create `Conduction/handbook` on Codeberg (single repo — the
+      `pages` branch in this repo is the deploy target, no pages repo)
+- [x] 1.2 Resolve design open question 2 (Pages serving convention) and
+      question 3 (site URL) — resolved 2026-07-06, recorded in design.md:
+      pages branch in handbook repo, site at
+      conduction.codeberg.page/handbook/
+- [ ] 1.3 Create scoped token `DOCS_READ_TOKEN` (org read-only) as
+      handbook repo secret; pages push uses the built-in Actions token
+      (fallback: repo-scoped write token)
 
 ## 2. Portal skeleton
 
-- [ ] 2.1 `pyproject.toml` (uv; mkdocs-material, mkdocs-multirepo-plugin,
-      pinned versions) + `uv sync`
-- [ ] 2.2 `mkdocs.yml`: theme, nl/en search, `edit_uri`, nav for org pages
-- [ ] 2.3 Org pages: `index.md`, `org/architectuur.md`, `org/onboarding.md`;
-      move the contract page from change 1 to `org/conventies.md` (this
-      becomes its canonical home; old location gets a link)
+- [x] 2.1 `pyproject.toml` (uv; mkdocs-material 9.7.6,
+      mkdocs-multirepo-plugin 0.8.3, pinned) + `uv sync` — scaffolded
+      locally at ~/CONDUCTION/handbook
+- [x] 2.2 `mkdocs.yml`: theme, nl/en search, `edit_uri`, org pages
+- [x] 2.3 Org pages: `index.md`, `org/architectuur.md`, `org/onboarding.md`;
+      contract page moved to `org/conventies.md` (canonical home; techbook
+      copy points there)
 
 ## 3. Aggregation
 
-- [ ] 3.1 Add multirepo imports for the participating set (from change 1)
-- [ ] 3.2 Local build test: `uv run mkdocs build --strict` with public
-      repos
-- [ ] 3.3 Test private-repo clone with `DOCS_READ_TOKEN` env substitution
-      against Forgejo (design.md known constraint) — document outcome
-- [ ] 3.4 Verify edit links on aggregated pages resolve to source repos;
-      if the plugin doesn't rewrite them, record the limitation in
-      design.md and in `org/conventies.md`
+- [x] 3.1 Add multirepo imports for the participating set — `repos:` mode
+      (nav-`!import` requires an mkdocs.yml in each source repo; repos
+      mode does not — deliberate choice, recorded in handbook CHANGELOG)
+- [x] 3.2 Local build test: `uv run mkdocs build --strict` green,
+      83 pages, all 8 imports cloned from Codeberg (2026-07-06)
+- [ ] 3.3 Test private-repo clone with `DOCS_READ_TOKEN` against Forgejo —
+      OPEN: all v1 repos are public (anonymous clone worked); test the
+      token path before the first private repo joins
+- [x] 3.4 Verify edit links on aggregated pages resolve to source repos —
+      VERIFIED: plugin rewrites edit_uri per import (talos page →
+      codeberg.org/Conduction/talos/_edit/main/docs/…)
 
 ## 4. Pipeline
 

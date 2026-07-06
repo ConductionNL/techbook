@@ -16,7 +16,9 @@ exists to solve.
   - MkDocs Material configuration
   - multirepo aggregation config pulling `/docs` from participating repos
 - Build pipeline (Forgejo Actions): `uv sync` → `mkdocs build --strict`
-  → deploy to Codeberg Pages (`Conduction/pages`)
+  → force-push `site/` to the `pages` branch of the handbook repo itself
+  (DECIDED 2026-07-06: single repo, no separate pages repo; served at
+  `conduction.codeberg.page/handbook/`)
 - Read-only org token for cloning during build (private repos), scoped
   to repository read only
 
@@ -29,8 +31,9 @@ exists to solve.
 ## Impact
 
 - Affected specs: `docs-portal` (new)
-- New repos: `Conduction/handbook`, `Conduction/pages`
-- New secret: `PAGES_TOKEN` (write on pages repo), `DOCS_READ_TOKEN`
-  (read-only org scope) — both in handbook repo secrets
+- New repos: `Conduction/handbook` (only)
+- New secret: `DOCS_READ_TOKEN` (read-only org scope) in handbook repo
+  secrets; the pages-branch push uses the workflow's built-in token
+  (fallback: repo-scoped write token)
 - Risk: low — portal is a build artifact; worst case is a broken site,
   never data loss

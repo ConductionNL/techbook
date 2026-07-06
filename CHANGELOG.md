@@ -1,5 +1,24 @@
 # Changelog
 
+## 2026-07-06 (avond) — change 2 gestart: handboek-portaal gescaffold
+
+- Besluit (gebruiker): **één repo** — geen aparte pages-repo; de site
+  wordt geserveerd van de `pages`-branch van `Conduction/handbook` op
+  conduction.codeberg.page/handbook/ (Pages-conventie geverifieerd
+  tegen docs.codeberg.org). Vastgelegd in proposal/design/tasks van
+  `add-handbook-portal`.
+- Handbook lokaal gescaffold (~/CONDUCTION/handbook): uv + MkDocs
+  Material 9.7.6 + multirepo-plugin 0.8.3 (repos-modus), org-pagina's
+  (conventies verhuisd als canonieke thuisbasis, architectuur,
+  onboarding), Forgejo-workflow naar de pages-branch.
+- Lokale strikte build groen: 83 pagina's, alle 8 imports; edit-links
+  op geaggregeerde pagina's wijzen naar de bronrepo (spec-eis gehaald).
+- Taken 1.2, 2.1–2.3, 3.1, 3.2, 3.4 afgevinkt; open: 1.1/1.3
+  (repo + token aanmaken — gebruiker), 3.3 (private-clone-test, pas
+  relevant bij een private repo), 4.x (pipeline live), 5.x.
+- `docs/conventies.md` hier verwijst nu naar de canonieke versie in
+  handbook.
+
 ## 2026-07-06 (vervolg) — remediatie alle 8 repos afgerond
 
 Sectie 4 + taak 5.1 van `add-repo-docs-baseline` uitgevoerd. Hermeting:

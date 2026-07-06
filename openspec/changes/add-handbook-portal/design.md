@@ -32,9 +32,15 @@ reviewable — no auto-discovery magic.
 
 ### Deploy mechanism
 
-Force-push of the built `site/` to `Conduction/pages`. Deliberately dumb:
-the pages repo has no history worth keeping because the source of truth
-is elsewhere. Auditable via the pipeline run log, not via pages history.
+**DECIDED 2026-07-06: single repo.** No separate `Conduction/pages` repo —
+the built `site/` is force-pushed to a branch named `pages` **in the
+handbook repo itself** (Codeberg Pages serves that at
+`conduction.codeberg.page/handbook/`). Trade-off accepted: one repo to
+manage beats the marginally cleaner source/artifact split; the artifact
+branch has no history worth keeping (force-push, auditable via the
+pipeline run log). Prefer the workflow's built-in Actions token for the
+push to its own repo; fall back to a repo-scoped write token only if the
+built-in token can't push.
 
 ### Edit links
 
@@ -43,11 +49,14 @@ plugin rewrites edit URIs per imported repo — verify this during
 implementation; if it doesn't, accept edit links only on handbook-native
 pages for v1 and note it as a known limitation.
 
-## Open questions (resolve before apply)
+## Open questions — RESOLVED 2026-07-06
 
-1. Exact participating repo list for v1 (from change 1, task 2.2).
-2. Does Codeberg Pages serve from `Conduction/pages` main branch or from
-   a `pages` branch per repo? Confirm current Codeberg convention and
-   set the push target accordingly.
-3. Site URL: `conduction.codeberg.page` root or `/handbook` subpath —
-   affects `site_url` and canonical links.
+1. Participating repo list for v1 (from change 1, task 2.2):
+   react-base, Nextcloud-base, cluster-infra, KeyCloak, talos,
+   cluster-config, monitoring, openwoo-app-config.
+2. Codeberg Pages serves both ways (verified against
+   docs.codeberg.org/codeberg-pages/): a repo named `pages` → org root
+   URL; a branch named `pages` in any repo → `/reponame` subpath.
+   Decision: **`pages` branch in the handbook repo** (single-repo setup).
+3. Site URL: `https://conduction.codeberg.page/handbook/` (subpath) —
+   set as `site_url`; canonical links follow.
