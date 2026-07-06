@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-07-06 (avond, later) — docs-contract als pre-push hook exporteerbaar
+
+- `.pre-commit-hooks.yaml`: hook `docs-contract` (draait
+  `scripts/check_docs_contract.py .` als pre-push gate) — zelfde
+  export-patroon als talos' `forgejo-runs-on`. Consumer-repos pinnen
+  techbook op een sha/tag; activatie per repo met
+  `pre-commit install --hook-type pre-push`. Pilot: react-base.
+
 ## 2026-07-06 (avond) — change 2 gestart: handboek-portaal gescaffold
 
 - Besluit (gebruiker): **één repo** — geen aparte pages-repo; de site
