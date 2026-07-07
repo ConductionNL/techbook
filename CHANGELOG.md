@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-07-07 (vervolg) — change 2 gearchiveerd
+
+- `add-handbook-portal` gearchiveerd; `docs-portal`-spec gepromoveerd
+  naar openspec/specs/ met een vastgelegde bekende afwijking:
+  DOCS_READ_TOKEN is persoonlijk tot management een machine-account
+  aanmaakt (overgedragen 2026-07-07); scope is al minimaal.
+
 ## 2026-07-07 — aggregatie-invariant bewezen; change 2 op token-review na af
 
 - Dispatch-rebuild (09:10, geen enkele handbook-commit) publiceerde de
