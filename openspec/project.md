@@ -67,3 +67,7 @@ Planned next (northstar; specs drafted 2026-07-06):
    tests / dry-runs), same pre-commit mechanism as the docs gate.
 7. `add-agent-guardrails` — per-component agents, skills and tools with
    idempotency guarantees (depends on 5 and 6).
+8. `add-sbom` (idea 2026-07-07) — per-repo SBOM (CycloneDX; uv/npm
+   exports or syft) generated in CI and published as a reference page
+   per component in the handbook; feeds the supply-chain posture and
+   ISO evidence. Spec when 3 runs quietly.
