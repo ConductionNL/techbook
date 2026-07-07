@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-07-07 — aggregatie-invariant bewezen; change 2 op token-review na af
+
+- Dispatch-rebuild (09:10, geen enkele handbook-commit) publiceerde de
+  aan de bron gewijzigde react-base-docs — kerninvariant van het portaal
+  formeel aangetoond (taak 5.1). Taken 3.3, 4.1-4.3 ook afgevinkt
+  (private-clone-pad in productie bewezen via KeyCloak; pipeline draait
+  als container-job op con-ci-oci).
+- Nog open in change 2: 5.2 (DOCS_READ_TOKEN vervangen door
+  machine-account-token) en daarna 5.3 (archiveren).
+
 ## 2026-07-06 (nacht, vervolg) — changes 4-7 gespecct, README-verduidelijking
 
 - Northstar verduidelijkt in openspec/project.md: pijler 1 omvat ook de

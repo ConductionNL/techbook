@@ -29,25 +29,32 @@
       mode does not — deliberate choice, recorded in handbook CHANGELOG)
 - [x] 3.2 Local build test: `uv run mkdocs build --strict` green,
       83 pages, all 8 imports cloned from Codeberg (2026-07-06)
-- [ ] 3.3 Test private-repo clone with `DOCS_READ_TOKEN` against Forgejo —
-      OPEN: all v1 repos are public (anonymous clone worked); test the
-      token path before the first private repo joins
+- [x] 3.3 Test private-repo clone with `DOCS_READ_TOKEN` against Forgejo —
+      PROVEN in production (2026-07-06): KeyCloak turned out private;
+      credential-store injection in the workflow authenticated the
+      plugin's clone. (KeyCloak later removed from the public build for
+      access reasons — the token path itself works.)
 - [x] 3.4 Verify edit links on aggregated pages resolve to source repos —
       VERIFIED: plugin rewrites edit_uri per import (talos page →
       codeberg.org/Conduction/talos/_edit/main/docs/…)
 
 ## 4. Pipeline
 
-- [ ] 4.1 `.forgejo/workflows/docs.yml`: on push to main —
-      uv sync → build --strict → deploy to pages
-- [ ] 4.2 Confirm the workflow runs on the existing self-hosted runners
-      (container image with git available; no privileged requirements)
-- [ ] 4.3 End-to-end: merge a trivial handbook PR, verify the live site
+- [x] 4.1 `.forgejo/workflows/docs.yml`: push to main + workflow_dispatch
+      → uv sync --frozen → build --strict (met retry) → force-push naar
+      de pages-branch
+- [x] 4.2 Confirm the workflow runs on the existing self-hosted runners —
+      as a container job on con-ci-oci (host class lacks node/curl);
+      PyPI hosts added to that class's egress allowlist
+- [x] 4.3 End-to-end proven: pushes to main build and publish the live
+      site (first green run 2026-07-06 ~19:56)
 
 ## 5. Verify & archive
 
-- [ ] 5.1 Change a doc in one source repo, trigger a rebuild manually
-      (workflow_dispatch), confirm the site updates with zero handbook
-      commits — this proves the aggregation invariant
-- [ ] 5.2 Token scope review against the least-privilege requirement
-- [ ] 5.3 Archive this change
+- [x] 5.1 Aggregation invariant PROVEN (2026-07-07 09:10): react-base
+      docs changed at the source, workflow_dispatch rebuild, site
+      updated with zero handbook commits
+- [ ] 5.2 Token scope review — OPEN: DOCS_READ_TOKEN is currently a
+      personal token; replace with a machine-account token
+      (spec: attributable to the pipeline, not a person)
+- [ ] 5.3 Archive this change (after 5.2)
