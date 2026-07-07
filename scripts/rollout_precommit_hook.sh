@@ -49,6 +49,25 @@ repos:
 EOF
 }
 
+append_verify_hook() {
+  local repo_dir="$1"
+  [[ -x "${repo_dir}/scripts/verify.sh" ]] || return 0
+  grep -q 'id: verify' "${repo_dir}/.pre-commit-config.yaml" && return 0
+  cat >> "${repo_dir}/.pre-commit-config.yaml" <<'EOF'
+
+  - repo: local
+    hooks:
+      - id: verify
+        name: verify (unit tests / dry-runs)
+        entry: scripts/verify.sh
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]
+EOF
+  log "$(basename "${repo_dir}"): verify-hook toegevoegd"
+}
+
 rollout_repo() {
   local repo_dir="$1" rev="$2" name
   name="$(basename "${repo_dir}")"
@@ -69,6 +88,7 @@ rollout_repo() {
     fi
   else
     write_config "${repo_dir}" "${rev}"
+    append_verify_hook "${repo_dir}"
     git -C "${repo_dir}" add .pre-commit-config.yaml
     git -C "${repo_dir}" commit --quiet -m \
       "chore: docs-contract pre-push gate via techbook hook"

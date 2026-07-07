@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-07-07 (middag) — change 6 geïmplementeerd: verify-gates in alle 8 repos
+
+- Elke deelnemende repo heeft nu `scripts/verify.sh` (huisstijl-header,
+  read-only, snel) als tweede pre-push hook naast docs-contract; alle
+  hooks geherinstalleerd. Rollout-script uitgebreid (voegt verify-hook
+  toe waar scripts/verify.sh bestaat).
+- Conventie vastgelegd in handbook org/conventies.md §8.
+- Bijvangst — de gates vonden meteen twee echte fouten:
+  1. react-base validate-values.sh: jq-syntax in yq-aanroep (gefixt);
+  2. Nextcloud-base tenant-vng-backend-green.yaml: resources/nextcloud
+     op document-root i.p.v. onder tenant: — PLATFORMBESLUIT NODIG,
+     de Nextcloud-base push blokkeert tot dan (bewust).
+- Open: 3.1 (kapotte-wijziging-bewijs per repo) en promtool-installatie.
+
 ## 2026-07-07 (vervolg) — change 2 gearchiveerd
 
 - `add-handbook-portal` gearchiveerd; `docs-portal`-spec gepromoveerd
