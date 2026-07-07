@@ -54,7 +54,11 @@
 - [x] 5.1 Aggregation invariant PROVEN (2026-07-07 09:10): react-base
       docs changed at the source, workflow_dispatch rebuild, site
       updated with zero handbook commits
-- [ ] 5.2 Token scope review — OPEN: DOCS_READ_TOKEN is currently a
-      personal token; replace with a machine-account token
-      (spec: attributable to the pipeline, not a person)
-- [ ] 5.3 Archive this change (after 5.2)
+- [x] 5.2 Token scope review — reviewed 2026-07-07; **known deviation
+      recorded**: DOCS_READ_TOKEN is a personal token (scope: repository
+      read only). Machine account creation requires management; handed
+      over (overdracht) 2026-07-07. Replace token + revoke personal one
+      as soon as the account exists.
+- [x] 5.3 Archive this change — archived as
+      changes/archive/2026-07-07-add-handbook-portal; spec promoted to
+      openspec/specs/docs-portal/
