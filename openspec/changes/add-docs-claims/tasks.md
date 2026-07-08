@@ -16,10 +16,14 @@
 - [x] 2.1 talos: allowlist-hosts ↔ docs geïmplementeerd in verify.sh;
       eerste run ving pkg-containers.githubusercontent.com als
       ongedocumenteerd (gefixt). Paden-assertion volgt met de runner (1.1)
-- [ ] 2.2 monitoring: alert ↔ runbook (bestaat al — geldt als patroon);
-      genoemde paden bestaan
-- [ ] 2.3 overige zes repos: minimaal de bestaande-paden-assertion +
-      per repo één domeinspecifieke claim
+- [x] 2.2 monitoring: alert ↔ runbook (bestond al) + release: mon-label-
+      assertie toegevoegd (2026-07-08)
+- [x] 2.3 alle 8 repos hebben een domeinspecifieke assertie (2026-07-08):
+      talos allowlist↔docs, react-base geen-tenant-bestanden, openwoo
+      make-targets, monitoring release-label, KeyCloak manifest-paden,
+      cluster-infra Applications↔index, cluster-config scripts↔index,
+      Nextcloud-base via validator/guardrails; generieke paden-assertie
+      volgt met de runner (1.1)
 - [ ] 2.4 Eerste verify-blokken in de meest gebruikte how-to's
       (tenant toevoegen, egress-host toevoegen, audit draaien)
 
