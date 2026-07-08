@@ -22,7 +22,10 @@ naar docs-mcp wijzen.
       tenant-toevoegen (GET-check-first); verify + contract groen
 - [ ] 2.2 react-base (frontend-blok-operaties, klein cataloog)
 - [ ] 2.3 openwoo-app-config (provisioner is al idempotent — voorbeeldcase)
-- [ ] 2.4 talos (egress-allowlist, workflows — hoge blast radius, strak)
+- [x] 2.4 talos (2026-07-08): strak cataloog (security-posture en
+      secrets mens-vereist; crown-jewel en generieke labels verboden),
+      CLAUDE.md, .mcp.json, plus de eerste doc-assertion (change 9,
+      allowlist-hosts ↔ docs) in verify
 - [ ] 2.5 monitoring (alert + runbook toevoegen)
 - [ ] 2.6 KeyCloak (client-onboarding)
 - [ ] 2.7 cluster-infra (component toevoegen)

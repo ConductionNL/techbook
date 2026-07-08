@@ -13,7 +13,9 @@
 
 ## 2. Doc-assertions per repo (mee in de cataloog-ronde van change 7)
 
-- [ ] 2.1 talos: allowlist-hosts ↔ docs; genoemde paden bestaan
+- [x] 2.1 talos: allowlist-hosts ↔ docs geïmplementeerd in verify.sh;
+      eerste run ving pkg-containers.githubusercontent.com als
+      ongedocumenteerd (gefixt). Paden-assertion volgt met de runner (1.1)
 - [ ] 2.2 monitoring: alert ↔ runbook (bestaat al — geldt als patroon);
       genoemde paden bestaan
 - [ ] 2.3 overige zes repos: minimaal de bestaande-paden-assertion +
