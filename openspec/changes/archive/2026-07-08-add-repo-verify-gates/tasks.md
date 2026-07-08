@@ -29,6 +29,10 @@
 
 ## 3. Verify & archive
 
-- [ ] 3.1 Bewijs per repo: kapotte wijziging wordt lokaal geblokkeerd
-      (scenario uit de spec-delta), verify-tijd gemeten ≤ ~2 min
-- [ ] 3.2 Archive this change
+- [x] 3.1 Bewijs geleverd (2026-07-08): per repo een bewust kapotte
+      wijziging (alleen tijdelijk toegevoegde bestanden) — 8/8 verify's
+      blokkeerden; tijden 0.1s-70s, alle binnen de richtlijn
+- [x] 3.2 Archive this change — archived as
+      changes/archive/2026-07-08-add-repo-verify-gates; spec promoted.
+      Genoteerd opvolgpunt (geen spec-eis): promtool installeren voor
+      volledige PromQL-validatie in monitoring
