@@ -18,7 +18,10 @@
 - [x] 2.1 `lychee.toml`: accept 403/429, exclude localhost and Forgejo
       `_edit/` URLs, sane concurrency/timeouts
 - [x] 2.2 Wire lychee into the workflow after the build (runs on `site/`)
-- [ ] 2.3 OPEN (eerste CI-run): confirm the pinned lychee binary is available on the
+- [x] 2.3 CONFIRMED (green run 2026-07-08 10:19): pinned lychee binary
+      downloads and runs on the con-ci-oci runner (after two URL/host
+      lessons: release-assets.githubusercontent.com allowlist + correct
+      tag/asset naming) is available on the
       self-hosted runners; otherwise pin the binary in the container image
 
 ## 3. Schedule + failure routing
