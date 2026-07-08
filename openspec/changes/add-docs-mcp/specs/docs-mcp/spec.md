@@ -36,6 +36,34 @@ from the front-matter.
 - THEN the response includes the markdown body plus repo, path, owner
   and last_reviewed — enough to cite and to judge staleness
 
+### Requirement: Hardened local runtime (v1)
+
+The v1 server SHALL open no network listener (stdio transport only) and
+SHALL run with least privilege:
+
+- `read_page` SHALL confine paths to the imported docs trees (path
+  traversal outside a component root is rejected, not resolved);
+- the read credential SHALL never appear in clone URLs, git config,
+  logs or tool output (credential-helper file, mode 0600, in the cache
+  dir);
+- dependencies SHALL be pinned and minimal; the server SHALL be covered
+  by unit tests including the traversal and credential-hygiene cases.
+
+A network-exposed variant is out of scope until it can sit behind the
+oauth2-proxy → Keycloak plane from `add-portal-access-split`.
+
+#### Scenario: Path traversal attempt
+
+- WHEN a tool call requests `read_page("talos", "../../../etc/passwd")`
+- THEN the call is rejected with an error and no file outside the
+  component tree is read
+
+#### Scenario: Token leak check
+
+- WHEN the server has cloned a private repo using DOCS_READ_TOKEN
+- THEN the token appears nowhere in `.git/config`, server output or
+  tool responses
+
 ### Requirement: Visibility respected
 
 The server SHALL honour the visibility split from
