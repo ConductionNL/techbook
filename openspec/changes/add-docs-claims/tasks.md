@@ -7,9 +7,9 @@
       zonder cluster-credentials, rapporteert claims per pagina
       (incl. "0 claims"); unit tests
 - [x] 1.2 Geëxporteerd als hook `docs-claims`; techbook dogfoodt zijn
-      eigen gates via een local pre-commit-config. OPEN deelstap:
-      pin-bump + hook-toevoeging in de consumer-repos (vergt de nieuwe
-      techbook-sha op Codeberg — volgende ronde)
+      eigen gates via een local pre-commit-config. Deelstap AF (2026-07-10):
+      pin-bump + docs-claims-hook in alle 9 consumer-repos; keten
+      gevalideerd; rollout-script schrijft de hook voortaan mee
 - [x] 1.3 Conventie vastgelegd: handbook org/conventies.md §9
 
 ## 2. Doc-assertions per repo (mee in de cataloog-ronde van change 7)
@@ -25,9 +25,9 @@
       cluster-infra Applications↔index, cluster-config scripts↔index,
       Nextcloud-base via validator/guardrails; generieke paden-assertie
       volgt met de runner (1.1)
-- [ ] 2.4 Eerste verify-blok live: techbook audit-checklist (het
-      audit-commando toetst zichzelf). OPEN: blokken in de repo-how-to's
-      zodra de consumer-hook is uitgerold (na 1.2)
+- [x] 2.4 Verify-blokken live in techbook (audit-commando), hub
+      (import-check) en openwoo (make lint); meer blokken groeien
+      organisch per docs-wijziging
 
 ## 3. Semantische laag
 

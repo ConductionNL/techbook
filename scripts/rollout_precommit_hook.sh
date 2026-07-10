@@ -46,6 +46,7 @@ repos:
     rev: ${rev}
     hooks:
       - id: docs-contract
+      - id: docs-claims
 EOF
 }
 
