@@ -71,7 +71,10 @@ Planned next (northstar; specs drafted 2026-07-06):
    doc-assertions in verify, executable `verify`-marked blocks via a
    shared runner, agent semantic review for the rest. "Docs as the
    skeleton of the technical organisation" made enforceable.
-9. `add-sbom` (idea 2026-07-07) — per-repo SBOM (CycloneDX; uv/npm
+9. `add-platform-assistant` (specced 2026-07-10) — embedded,
+   SSO-gated, read-only assistant sessions on platform.commonground.nu,
+   grounded in the handbook content layer with mandatory provenance.
+10. `add-sbom` (idea 2026-07-07) — per-repo SBOM (CycloneDX; uv/npm
    exports or syft) generated in CI and published as a reference page
    per component in the handbook; feeds the supply-chain posture and
    ISO evidence. Spec when 3 runs quietly.
