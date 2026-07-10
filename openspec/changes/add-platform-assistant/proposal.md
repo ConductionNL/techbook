@@ -32,6 +32,9 @@ handboek, mét herkomst.
 
 ## Non-goals
 
+- Rolmodel v2 (richting, besluit 2026-07-10): vragen stellen voor
+  iedereen; opdrachten alleen voor aangewezen Keycloak-rollen en altijd
+  via PR — nooit directe uitvoering. v1 blijft strikt lezend.
 - Geen operatie-uitvoering vanuit de browser in v1 — de
   operatie-catalogen (change 7) definiëren wat ooit zou mogen, maar de
   push/apply-hand blijft een mens op een werkstation. Een v2 met

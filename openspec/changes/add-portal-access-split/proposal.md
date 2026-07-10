@@ -22,6 +22,18 @@ components and a complete internal portal behind SSO.
 - KeyCloak docs return, internal-only.
 - Pipeline builds both variants; a page stating "je kijkt naar de
   publieke subset — interne versie: <url>" on the public site.
+- **Host-model (besluit 2026-07-10)**: `platform.commonground.nu` is de
+  voordeur (landing + assistent, "mensen enablen op één adres");
+  de interne docs-site en de gehoste MCP leven op
+  **`docs.platform.commonground.nu`** — één merk en één SSO, maar
+  aparte browser-origins en aparte Keycloak-clients, zodat geïmporteerde
+  docs-content (raw-HTML/prompt-injectie-kanaal) nooit op hetzelfde
+  origin draait als de control-plane.
+- **Rolgebonden MCP (besluit 2026-07-10)**: de gehoste MCP exposeert
+  tools per Keycloak-rol — read-tools (vragen stellen) voor alle
+  geauthenticeerden; operatie-/opdracht-tools alleen voor aangewezen
+  rollen, en élke wijziging materialiseert als PR in de bronrepo,
+  nooit als directe write of cluster-mutatie.
 - **Hosted MCP endpoint** (extension 2026-07-10): docs-mcp additionally
   exposed as a remote MCP server (streamable HTTP) on the cluster,
   behind the same oauth2-proxy → Keycloak plane — so colleagues and

@@ -36,3 +36,23 @@ requests receive 403, health endpoint excepted).
 - WHEN a request without a valid session hits any internal-site path
   except the health endpoint
 - THEN the response is a redirect to login or 403, never page content
+
+### Requirement: Role-scoped hosted MCP
+
+The hosted MCP SHALL expose read tools to all authenticated users and
+operation tools only to designated Keycloak roles; any change an
+operation prepares SHALL materialise as a pull request in the source
+repo — never a direct write or cluster mutation.
+
+#### Scenario: Unprivileged user asks vs commands
+
+- WHEN a user without the operations role calls a read tool and then an
+  operation tool
+- THEN the read succeeds and the operation tool is absent or refused
+  for that identity
+
+#### Scenario: Privileged operation
+
+- WHEN a user with the operations role triggers a catalogued operation
+- THEN the result is a reviewable PR in the source repo, and nothing
+  changed until a human merges it
