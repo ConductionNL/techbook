@@ -1,5 +1,9 @@
 # Tasks: add-docs-mcp
 
+> NB 2026-07-10: repo hernoemd van `docs-mcp` naar `hub` (cockpit + MCP
+> in één; gebruikersbesluit — nu herstructureren bij 9 repos, niet
+> later bij 80). Servernaam blijft `conduction-docs`.
+
 ## 1. Skelet
 
 - [x] 1.1 Repo opgezet (~/CONDUCTION/docs-mcp; mcp==1.28.1, pyyaml gepind) — (voorstel `Conduction/docs-mcp`): uv,
