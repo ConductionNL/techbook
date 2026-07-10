@@ -30,6 +30,12 @@
 
 - [x] 4.1 Runnable + .mcp.json-snippet gedocumenteerd (docs-mcp/docs/gebruik.md; komt via de importlijst in het handboek) — + `.mcp.json`-snippet documenteren in het
       handboek (org/onboarding of eigen pagina)
-- [ ] 4.2 OPEN: agent-sessie-test (registreren in .mcp.json, componentvraag beantwoorden); functionele livetest tools al groen — Live test: agent-sessie beantwoordt een componentvraag
-      aantoonbaar uit de MCP-tools (provenance zichtbaar)
-- [ ] 4.3 Scenario's uit de spec-delta aantonen; archive
+- [x] 4.2 GESLAAGD (2026-07-10, hub-sessie van Mark): componentvraag
+      beantwoord uit de tools mét provenance; herkomst-reviewdatum
+      verraadde eerst verouderde bron (fix was nog niet gepusht) — na
+      push gaf dezelfde vraag het verse antwoord (freshness-keten
+      end-to-end bewezen); sessie vond bovendien zelf extra drift
+- [x] 4.3 Scenario's aangetoond: single-source (nieuwe repo hub
+      verscheen zonder servercode-wijziging), freshness (live, zie 4.2),
+      provenance (elke read), visibility (zonder token geen KeyCloak).
+      Archived as changes/archive/2026-07-10-add-docs-mcp; spec promoted
