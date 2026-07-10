@@ -36,8 +36,14 @@
 
 ## 3. Adoptie (mens doet elke cluster-actie)
 
-- [ ] 3.1 Application `argocd` aanmaken (sync handmatig, geen prune,
-      geen selfHeal); eerste sync aantoonbaar no-op
+- [x] 3.1 Application `argocd` aanmaken (sync handmatig, geen prune,
+      geen selfHeal); eerste sync aantoonbaar no-op — 2026-07-10:
+      adoptie via scripts/argocd-adopt.sh (stap 1-3, mens); onderweg
+      AppProject-destination toegevoegd (least privilege weigerde
+      terecht). Eerste sync (handmatig, Mark, 16:43Z) tijdens een
+      Codeberg-storing vanaf repo-server-cache: 66 objecten SSA,
+      nul wijzigingen, nul pod-restarts; kubectl diff vóór én ná leeg.
+      Statusbordje Synced volgt zodra Codeberg weer vergelijkbaar is
 - [ ] 3.2 Observatieperiode; daarna besluit selfHeal aan/uit
 - [ ] 3.3 Handboek: org-architectuurpagina vermeldt het zelfbeheer
 
