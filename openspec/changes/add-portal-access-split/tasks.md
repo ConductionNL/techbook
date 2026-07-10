@@ -28,10 +28,20 @@
 - [ ] 3.2 Argo pikt nieuwe image-tag op (digest-pin of tag+refresh —
       besluiten en vastleggen)
 
-## 4. Verify & archive
+## 4. Gehost MCP-endpoint
 
-- [ ] 4.1 Scenario's uit de spec-delta aantonen (entry zonder marker
+- [ ] 4.1 docs-mcp: streamable-HTTP-transport naast stdio (zelfde tools,
+      zelfde content-laag; geen extra schrijfpaden)
+- [ ] 4.2 Deploy naar het cluster achter de oauth2-proxy → Keycloak-laag
+      van dit change (eigen host of pad onder de interne site)
+- [ ] 4.3 Verifieer de Claude remote-MCP OAuth-flow tegen
+      oauth2-proxy/Keycloak; documenteer het aansluitrecept in
+      handbook org/agents.md naast het lokale recept
+
+## 5. Verify & archive
+
+- [ ] 5.1 Scenario's uit de spec-delta aantonen (entry zonder marker
       faalt; KeyCloak-pagina's alleen intern; 403 zonder sessie)
-- [ ] 4.2 DOCS_READ_TOKEN vervangen door machine-account-token
+- [ ] 5.2 DOCS_READ_TOKEN vervangen door machine-account-token
       (openstaand punt uit change 2, taak 5.2)
-- [ ] 4.3 Archive this change
+- [ ] 5.3 Archive this change

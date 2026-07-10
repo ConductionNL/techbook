@@ -22,6 +22,13 @@ components and a complete internal portal behind SSO.
 - KeyCloak docs return, internal-only.
 - Pipeline builds both variants; a page stating "je kijkt naar de
   publieke subset — interne versie: <url>" on the public site.
+- **Hosted MCP endpoint** (extension 2026-07-10): docs-mcp additionally
+  exposed as a remote MCP server (streamable HTTP) on the cluster,
+  behind the same oauth2-proxy → Keycloak plane — so colleagues and
+  agents without a local checkout reach the handbook tools. The local
+  stdio variant stays the default for workstations; verify during
+  implementation how Claude's remote-MCP OAuth flow composes with
+  oauth2-proxy/Keycloak (MCP auth discovery vs proxy-level auth).
 
 ## Non-goals
 
