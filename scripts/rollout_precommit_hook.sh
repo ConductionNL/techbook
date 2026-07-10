@@ -47,6 +47,16 @@ repos:
     hooks:
       - id: docs-contract
       - id: docs-claims
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.4
+    hooks:
+      - id: gitleaks
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: detect-private-key
 EOF
 }
 

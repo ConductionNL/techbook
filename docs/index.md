@@ -18,3 +18,5 @@ openspec-changes in dit repo.
   (how-to).
 - [Audit juli 2026](audit-2026-07.md) — de nulmeting over de acht
   deelnemende repos (referentie).
+- [Hookset en pin-beheer](hooks.md) — de gedeelde gates en de
+  bump-procedure (referentie/how-to).
