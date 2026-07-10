@@ -18,6 +18,13 @@ van export en diff op het werkstation, niet in git).
    `admin.enabled`, service-accounts `cluster-provisioner` en `syncbot`,
    en een `configManagementPlugins`-key (verouderde vorm sinds v2.5+ —
    kandidaat voor opruimen tijdens vastlegging).
+   **SECURITY-FINDING (2026-07-10):** het OIDC-`clientSecret` staat
+   **inline** in deze ConfigMap i.p.v. als
+   `$oidc.keycloak.clientSecret`-verwijzing naar `argocd-secret`.
+   Vastlegging MOET het secret eerst naar `argocd-secret` (ESO)
+   verplaatsen — argocd-cm mag nooit as-is naar git. Overweeg rotatie
+   van de client secret in Keycloak na de verhuizing (hij is nu leesbaar
+   voor iedereen met CM-read in de namespace).
 3. **`argocd-rbac-cm`**: `policy.csv`, `policy.default`, `scopes`.
 4. **`argocd-ssh-known-hosts-cm`**: extra hosts (o.a. Codeberg).
 5. **Credential-refresh-mechanisme** (het "mysterie", nu herleid):
