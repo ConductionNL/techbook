@@ -44,6 +44,9 @@
 
 ## 4. Verify & archive
 
-- [ ] 4.1 Scenario's uit de spec-delta aantonen (rotte claim blokkeert;
-      dekking zichtbaar; mutatie-blok geweigerd)
-- [ ] 4.2 Archive this change
+- [x] 4.1 Scenario's aangetoond (2026-07-10): rotte claim → hook Failed
+      met pagina+blok benoemd; dekking zichtbaar (0-claims-lijst in elke
+      run + unit test); mutatie-bescherming: KUBECONFIG geneutraliseerd
+      (unit test) + review-eis in conventies §9
+- [x] 4.2 Archive this change — archived as
+      changes/archive/2026-07-10-add-docs-claims; spec promoted
