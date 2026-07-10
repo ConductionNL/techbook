@@ -10,17 +10,29 @@
 
 ## 2. Dienst
 
-- [ ] 2.1 Assistent-endpoint in de webgui (Claude Agent SDK, Python):
+- [x] 2.1 Assistent-endpoint in de webgui (Claude Agent SDK, Python):
       sessies server-side, docs-mcp-content-laag als library, alleen
-      read-tools; unit tests
-- [ ] 2.2 Grenzen: rate limit per SSO-identiteit, token-budget per
-      sessie, timeouts
-- [ ] 2.3 Audit-log (wie/vraag/antwoord/bronnen), key via ESO
+      read-tools; unit tests — 2026-07-10: `webgui/assistant.py`
+      (claude-agent-sdk 0.2.115, in-process MCP-server "handboek" met
+      search_docs/read_page/list_components; ingebouwde tools ook
+      expliciet disallowed), 18 tests
+- [x] 2.2 Grenzen: rate limit per SSO-identiteit, token-budget per
+      sessie, timeouts — 2026-07-10: 10 vragen/uur (schuivend venster),
+      turn-cap 12, timeout 180s, vraaglengte-cap 2000; alles env-tunable.
+      NB livetest: ±$1,07 nominale kosten en 40s per vraag — weegt mee
+      bij besluit 1.1 (budget) en evt. ASSISTANT_MODEL
+- [x] 2.3 Audit-log (wie/vraag/antwoord/bronnen), key via ESO —
+      2026-07-10: JSONL via logger + optioneel ASSISTANT_AUDIT_LOG;
+      record bevat ts/user/vraag/antwoord/bronnen/usage/kosten/duur.
+      ESO-secret blijft onderdeel van 1.1/3.3 (testfase: sub-token
+      uit de proces-omgeving, conform vastgelegde afwijking)
 
 ## 3. UI en deploy
 
-- [ ] 3.1 Chatvenster in de webgui (streamend antwoord, bronnen
-      klikbaar naar de interne site)
+- [x] 3.1 Chatvenster in de webgui (streamend antwoord, bronnen
+      klikbaar naar de interne site) — 2026-07-10: /assistant +
+      NDJSON-stream /api/assistant/ask; bronnen linken naar de
+      Codeberg-bron (interne site volgt met change 4); card op home
 - [ ] 3.2 Egress: api.anthropic.com + codeberg.org vanuit de
       webgui-namespace (NetworkPolicy/allowlist)
 - [ ] 3.3 Image + Argo-deploy volgens het bestaande webgui-patroon
