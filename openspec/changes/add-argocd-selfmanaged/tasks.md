@@ -1,0 +1,38 @@
+# Tasks: add-argocd-selfmanaged
+
+## 1. Inventarisatie (read-only)
+
+- [x] 1.1 Live Argo-objecten exporteren (cm/deploy/sts/svc/ingress/
+      rbac — géén secrets) en diffen tegen de kale upstream
+      v3.0.6-manifests: het eigen delta exact benoemen — 2026-07-10,
+      zie design.md (delta = ingress + 3 CM's + credential-refresh)
+- [x] 1.2 Herkomst en functie van `argocd-credential-refresh-script`
+      herleiden (incl. wat hem mount/aanroept); besluit adopteren of
+      pensioneren — 2026-07-10: CronJob die 24u-kubeconfigs voor de 3
+      shoot-clusters ververst via Gardener; ADOPTEREN (zie design.md;
+      3 van laatste 6 runs faalden — alerting-opvolgpunt)
+- [x] 1.3 Secret-inventaris: welke secrets horen bij de install
+      (SSO-client, repo-creds) en hoe lopen ze via ESO — 2026-07-10:
+      tabel in design.md; gardener-sa-kubeconfig is nu handgeplaatst
+      root-credential (geen ESO in de namespace)
+
+## 2. Vastleggen in cluster-infra
+
+- [ ] 2.1 Kustomize-base op gepinde upstream-versie + overlay met
+      uitsluitend het delta uit 1.1
+- [ ] 2.2 `kubectl diff` tegen het cluster tot die leeg is (no-op
+      bewezen; dit is de gate voor 3.x)
+- [ ] 2.3 Docs: zelfbeheer + bootstrap + break-glass in
+      cluster-infra/docs, doc-assertion in verify
+
+## 3. Adoptie (mens doet elke cluster-actie)
+
+- [ ] 3.1 Application `argocd` aanmaken (sync handmatig, geen prune,
+      geen selfHeal); eerste sync aantoonbaar no-op
+- [ ] 3.2 Observatieperiode; daarna besluit selfHeal aan/uit
+- [ ] 3.3 Handboek: org-architectuurpagina vermeldt het zelfbeheer
+
+## 4. Verify & archive
+
+- [ ] 4.1 Scenario's uit de spec-delta aantonen
+- [ ] 4.2 Archive this change
