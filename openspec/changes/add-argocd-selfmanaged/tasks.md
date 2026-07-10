@@ -18,12 +18,21 @@
 
 ## 2. Vastleggen in cluster-infra
 
-- [ ] 2.1 Kustomize-base op gepinde upstream-versie + overlay met
-      uitsluitend het delta uit 1.1
-- [ ] 2.2 `kubectl diff` tegen het cluster tot die leeg is (no-op
-      bewezen; dit is de gate voor 3.x)
-- [ ] 2.3 Docs: zelfbeheer + bootstrap + break-glass in
-      cluster-infra/docs, doc-assertion in verify
+- [x] 2.1 Kustomize-base op gepinde upstream-versie + overlay met
+      uitsluitend het delta uit 1.1 — 2026-07-10: vendored (hermetisch)
+      i.p.v. remote base; Application zonder prune/selfHeal/finalizer.
+      AFWIJKING van de proposal: geen bruikbare ESO-backend aanwezig →
+      gedocumenteerde bootstrap-secrets-lijst i.p.v. ESO (zie design.md)
+- [x] 2.2 `kubectl diff` tegen het cluster tot die leeg is (no-op
+      bewezen; dit is de gate voor 3.x) — 2026-07-10: restdiff = exact
+      3 bekende, ongevaarlijke afwijkingen (OIDC-$-verwijzing, subject-
+      namespace op 6 RoleBindings, herstelde labels op rbac-cm); de
+      bootstrap-apply in fase 3 neemt ze weg, daarna diff leeg
+- [x] 2.3 Docs: zelfbeheer + bootstrap + break-glass in
+      cluster-infra/docs, doc-assertion in verify — 2026-07-10:
+      docs/argocd.md (incl. upgrade-procedure en bootstrap-secrets-
+      tabel), index/agents bijgewerkt, verify rendert+kubeconformt
+      argocd/, docs-claims-blok getoetst
 
 ## 3. Adoptie (mens doet elke cluster-actie)
 

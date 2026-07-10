@@ -49,6 +49,27 @@ van export en diff op het werkstation, niet in git).
 | `cluster-api.*` (3×) | runtime-artefact van de CronJob | NIET in git; door de CronJob beheerd |
 | `nextcloud-repo-key`, `react-base-repo` | repo-creds | ESO |
 
+## Afwijking van de proposal: bootstrap-secrets i.p.v. ESO (2026-07-10)
+
+De proposal veronderstelde ESO voor de Argo-secrets, maar de enige
+ClusterSecretStore in het cluster is de tenant-mirror van
+nextcloud-platform (Kubernetes-provider) — geen bruikbare backend voor
+control-plane-secrets. Besluit fase 2: een **gedocumenteerde
+bootstrap-secrets-lijst** (mens plaatst: `argocd-oidc-keycloak`,
+`gardener-sa-kubeconfig`, repo-creds; tabel in cluster-infra
+docs/argocd.md). Een echte secret-backend blijft een los besluit.
+
+## Restdiff na vastlegging (gate voor fase 3)
+
+`kubectl diff -k argocd` toont exact drie bekende afwijkingen:
+1. argocd-cm: OIDC-clientSecret → `$argocd-oidc-keycloak:clientSecret`
+   (de bedoelde security-fix);
+2. zes RoleBindings: kustomize maakt het subject-namespace expliciet
+   (semantisch identiek);
+3. argocd-rbac-cm: herstel van de upstream-labels die live ontbraken.
+De bootstrap-apply (`kubectl apply -k argocd`, fase 3 stap 2, mens)
+neemt alle drie weg; daarna is de eerste Application-sync een no-op.
+
 ## Consequentie voor scope
 
 Argo beheert **drie shoot-clusters**, niet alleen zichzelf — het
