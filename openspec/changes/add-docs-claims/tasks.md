@@ -31,10 +31,16 @@
 
 ## 3. Semantische laag
 
-- [ ] 3.1 Agent-pass definiëren: cadans (voorstel: maandelijks per
-      component), werkwijze (docs-mcp als bron, diff-gericht),
-      uitvoer via de docs-drift issue-routing
-- [ ] 3.2 Eerste pass over twee componenten als nulmeting
+- [x] 3.1 Gedefinieerd (2026-07-10): skill `semantische-review` in hub
+      (maandelijks, 2 componenten/beurt, langst-niet-gereviewd eerst;
+      triviale drift direct fixen, structurele via drift-routing;
+      toetsbare beweringen promoveren naar laag 1/2) + paragraaf in
+      handbook org/agents.md
+- [x] 3.2 Nulmeting (2026-07-10): Nextcloud-base 5/5 beweringen kloppen
+      (chart-default, nc-naam, ESO, canary-mechanisme); monitoring 6/7 —
+      1 drift gevonden en gefixt: alerting.md beschreef het gepensioneerde
+      configMapOverrideName-mechanisme; config is inline in
+      stack/values.yaml, legacy ConfigMap gevlagd voor verwijdering
 
 ## 4. Verify & archive
 
