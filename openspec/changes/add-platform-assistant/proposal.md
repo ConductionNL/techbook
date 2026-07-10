@@ -20,8 +20,13 @@ handboek, mét herkomst.
 - **v1 is strikt lezend**: vragen beantwoorden met verplichte
   bronvermelding (component, pagina, owner, last_reviewed). Geen
   operaties, geen cluster-toegang, geen schrijf-tools.
-- Toegang via de bestaande SSO-laag (fail-closed); de Anthropic-API-key
-  als cluster-secret (ESO), nooit client-side.
+- Toegang via de bestaande SSO-laag (fail-closed). **Model-auth
+  (besluit 2026-07-10): default is een ANTHROPIC_API_KEY** uit een
+  org-workspace (budget-capped, attribueerbaar aan de dienst) als
+  cluster-secret (ESO), nooit client-side. Voor de testfase mag een
+  persoonlijke CLAUDE_CODE_OAUTH_TOKEN (subscription) — vastgelegd als
+  tijdelijke afwijking: persoonlijk, gedeelde rate-vensters, verbruik
+  boekt op één persoon; vervangen vóór bredere openstelling.
 - Kosten- en misbruikgrenzen: per-gebruiker rate limit, max tokens per
   sessie, en een audit-log van vraag/antwoord (herleidbaar, ISO-lijn).
 

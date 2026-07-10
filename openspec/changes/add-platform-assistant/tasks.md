@@ -2,7 +2,10 @@
 
 ## 1. Besluiten (mens/management)
 
-- [ ] 1.1 ANTHROPIC_API_KEY: budget, eigenaarschap, ESO-secret
+- [ ] 1.1 ANTHROPIC_API_KEY (default): org-workspace, budget,
+      eigenaarschap, ESO-secret. TESTFASE ontgrendeld 2026-07-10:
+      persoonlijke sub-token van Mark als vastgelegde afwijking —
+      de bouw is hiermee niet langer geblokkeerd
 - [ ] 1.2 Retentie/privacy van de audit-log vaststellen
 
 ## 2. Dienst
