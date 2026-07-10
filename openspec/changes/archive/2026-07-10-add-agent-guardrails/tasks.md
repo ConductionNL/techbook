@@ -40,6 +40,13 @@ naar docs-mcp wijzen.
 
 ## 3. Verify & archive
 
-- [ ] 3.1 Scenario-test per component: herhaalde agent-run convergeert
-      (geen diff bij tweede run); niet-gecatalogiseerde vraag escaleert
-- [ ] 3.2 Archive this change
+- [x] 3.1 Scenario-test GESLAAGD (2026-07-10, hub-sessies van Mark, op
+      Nextcloud-base): (a) grondwaarheid via MCP mét provenance ✓;
+      (b) eerste run legde een te ruim cataloog bloot (autonome
+      tenant-creatie) → creatie-regel "voorstel-eerst" ingevoerd →
+      hertest: voorstel + akkoord-moment ✓; (c) herhaalde run
+      convergeert ("bestaat al, geen wijziging") ✓; (d) niet-
+      gecatalogiseerde vraag (canary opschalen) escaleert zonder
+      uitvoeringspoging ✓; (e) push/kubectl consequent aan de mens ✓
+- [x] 3.2 Archive this change — archived as
+      changes/archive/2026-07-10-add-agent-guardrails; spec promoted
