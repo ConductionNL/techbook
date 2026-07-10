@@ -20,3 +20,16 @@
   pass_filenames: false
   always_run: true
   stages: [pre-push]
+
+- id: docs-claims
+  name: docs-claims (uitvoerbare documentatie)
+  description: >-
+    Draait verify-gemarkeerde codeblokken (```bash verify) uit docs/ als
+    dry-run met timeout en zonder cluster-credentials; rapporteert
+    dekking per pagina. Zie handbook org/conventies.md.
+  entry: scripts/check_docs_claims.py
+  args: ['docs']
+  language: script
+  pass_filenames: false
+  always_run: true
+  stages: [pre-push]

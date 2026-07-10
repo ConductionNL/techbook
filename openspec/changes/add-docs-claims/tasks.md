@@ -2,14 +2,15 @@
 
 ## 1. Gedeelde runner
 
-- [ ] 1.1 `scripts/check_docs_claims.py` in techbook: extraheert
+- [x] 1.1 (2026-07-10) `scripts/check_docs_claims.py`: extraheert
       ```<taal> verify-blokken uit docs/, draait ze met timeout en
       zonder cluster-credentials, rapporteert claims per pagina
       (incl. "0 claims"); unit tests
-- [ ] 1.2 Exporteren als pre-commit hook `docs-claims` (naast
-      docs-contract); rollout-script uitbreiden
-- [ ] 1.3 Conventie vastleggen in handbook `org/conventies.md`
-      (markering, dry-run-eis, dekking zichtbaar)
+- [x] 1.2 Geëxporteerd als hook `docs-claims`; techbook dogfoodt zijn
+      eigen gates via een local pre-commit-config. OPEN deelstap:
+      pin-bump + hook-toevoeging in de consumer-repos (vergt de nieuwe
+      techbook-sha op Codeberg — volgende ronde)
+- [x] 1.3 Conventie vastgelegd: handbook org/conventies.md §9
 
 ## 2. Doc-assertions per repo (mee in de cataloog-ronde van change 7)
 
@@ -24,8 +25,9 @@
       cluster-infra Applications↔index, cluster-config scripts↔index,
       Nextcloud-base via validator/guardrails; generieke paden-assertie
       volgt met de runner (1.1)
-- [ ] 2.4 Eerste verify-blokken in de meest gebruikte how-to's
-      (tenant toevoegen, egress-host toevoegen, audit draaien)
+- [ ] 2.4 Eerste verify-blok live: techbook audit-checklist (het
+      audit-commando toetst zichzelf). OPEN: blokken in de repo-how-to's
+      zodra de consumer-hook is uitgerold (na 1.2)
 
 ## 3. Semantische laag
 

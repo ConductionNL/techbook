@@ -1,5 +1,5 @@
 ---
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-10
 owner: mark
 ---
 
@@ -24,6 +24,13 @@ gehouden.
 Draai vanuit de techbook-repo:
 
     uv run scripts/check_docs_contract.py <pad-repo-1> <pad-repo-2> ...
+
+Dat dit commando werkt, is zelf een geteste bewering (uitvoerbare
+documentatie — dit blok draait als claim bij elke push):
+
+```bash verify
+uv run scripts/check_docs_contract.py . >/dev/null
+```
 
 Het script controleert per repo:
 

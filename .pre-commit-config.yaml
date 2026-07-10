@@ -1,0 +1,28 @@
+# Dogfood: techbook draait zijn eigen gates lokaal.
+#   pre-commit install --hook-type pre-push
+repos:
+  - repo: local
+    hooks:
+      - id: docs-contract
+        name: docs-contract (eigen script)
+        entry: scripts/check_docs_contract.py
+        args: ['.']
+        language: script
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]
+      - id: docs-claims
+        name: docs-claims (eigen script)
+        entry: scripts/check_docs_claims.py
+        args: ['docs']
+        language: script
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]
+      - id: tests
+        name: unit tests
+        entry: bash -c 'uv run --with pytest --with pyyaml python -m pytest tests/ -q'
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]
