@@ -43,9 +43,11 @@
       terecht). Eerste sync (handmatig, Mark, 16:43Z) tijdens een
       Codeberg-storing vanaf repo-server-cache: 66 objecten SSA,
       nul wijzigingen, nul pod-restarts; kubectl diff vóór én ná leeg.
-      Statusbordje Synced volgt zodra Codeberg weer vergelijkbaar is
+      2026-07-11: Synced/Healthy bevestigd; stap 4 (OIDC-rotatie in
+      Keycloak + secret-update) door Mark gedaan, SSO-login werkt —
+      security-finding afgehandeld
 - [ ] 3.2 Observatieperiode; daarna besluit selfHeal aan/uit
-- [ ] 3.3 Handboek: org-architectuurpagina vermeldt het zelfbeheer
+- [x] 3.3 Handboek: org-architectuurpagina vermeldt het zelfbeheer — 2026-07-11
 
 ## 4. Verify & archive
 
