@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-07-13 — add-sops-second-recipient afgerond en gearchiveerd (review WP4)
+
+- Alle taken gereed: escrow-key gegenereerd (custodian info@conduction.nl,
+  offline escrow), tweede recipient in talos én monitoring `.sops.yaml`,
+  custody-paragrafen in beide repos, talos runner-secrets herversleuteld
+  (`sops updatekeys`, talos-commit 42e1215). Besluit: één sleutelpaar
+  voor beide repos op deze schaal.
+- Change verplaatst naar `openspec/changes/archive/2026-07-13-add-sops-second-recipient/`.
+- Van de review (WP1–WP8) staat nu alleen WP8 (eigenaarschap/evidence)
+  nog open — wacht op de mapping persoon→component.
+
 ## 2026-07-07 (middag) — change 6 geïmplementeerd: verify-gates in alle 8 repos
 
 - Elke deelnemende repo heeft nu `scripts/verify.sh` (huisstijl-header,
