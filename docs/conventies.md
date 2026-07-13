@@ -1,6 +1,6 @@
 ---
 last_reviewed: 2026-07-06
-owner: mark
+owner: info@conduction.nl
 ---
 
 # Documentatie-conventies (het docs-contract)
@@ -29,7 +29,7 @@ precies deze twee verplichte velden:
 
     ---
     last_reviewed: 2026-07-06
-    owner: mark
+    owner: info@conduction.nl
     ---
 
 - `last_reviewed`: ISO 8601-datum (JJJJ-MM-DD) van de laatste inhoudelijke
@@ -72,7 +72,7 @@ de andere vervangen door een link.
 Elke deelnemende repo heeft een CODEOWNERS-regel die `/docs` dekt, zodat
 elke docs-wijziging een verantwoordelijke reviewer heeft:
 
-    docs/ @mark
+    docs/ info@conduction.nl
 
 ## 7. Docs-as-code
 
