@@ -34,8 +34,17 @@
       NDJSON-stream /api/assistant/ask; bronnen linken naar de
       Codeberg-bron (interne site volgt met change 4); card op home
 - [ ] 3.2 Egress: api.anthropic.com + codeberg.org vanuit de
-      webgui-namespace (NetworkPolicy/allowlist)
-- [ ] 3.3 Image + Argo-deploy volgens het bestaande webgui-patroon
+      webgui-namespace (NetworkPolicy/allowlist) — VOORBEREID 2026-07-13:
+      `webgui/deploy/networkpolicy-egress.yaml` (apart terugdraaibaar
+      object; hostnaam-pinnen kan niet in vanilla Calico → extern
+      443-only + DNS + kube-API + in-cluster HTTP; risico-analyse en
+      testchecklist in de file-kop). Apply + checklist = mens
+- [ ] 3.3 Image + Argo-deploy volgens het bestaande webgui-patroon —
+      VOORBEREID 2026-07-13: Dockerfile (git + hub gepind op sha met
+      build-verificatie, claude-CLI zit gebundeld in de SDK-wheel),
+      deployment-env/volumes/limits, secret-template `openwoo-assistant`,
+      newTag 0.3.0. Bouwen/pushen (make image/push) en syncen = mens;
+      image éérst pushen, dan mergen
 
 ## 4. Verify & archive
 
