@@ -7,14 +7,19 @@
 
 ## 2. Fase 0 — voorwaarden
 
-- [ ] 2.1 `docs/agents.md` voor hub (3–5 operaties; o.a. clone_all,
-      semantische-review, cataloog-audit)
-- [ ] 2.2 `docs/agents.md` voor techbook (o.a. openspec-flow,
-      contract/claims-checks, hook-rollout)
-- [ ] 2.3 `docs/agents.md` voor handbook (o.a. org-pagina's bewerken;
-      importlijst = trust root, expliciet mens-vereist)
-- [ ] 2.4 monitoring: legacy `docs/AGENTS.md` archiveren (één
-      agent-waarheid; case-collision weg)
+- [x] 2.1 `docs/agents.md` voor hub — 2026-07-14 (hub 9f6aed8):
+      clone_all/docs_mcp/semantische-review autonoom; cockpit-settings
+      expliciet mens ("een agent die ze wijzigt keurt zijn eigen kooi")
+- [x] 2.2 `docs/agents.md` voor techbook — 2026-07-14: proposen autonoom
+      als vóórstel, goedkeuren mens; contract/claims-checks autonoom;
+      hook-rollout en normatieve specs mens/change-gebonden
+- [x] 2.3 `docs/agents.md` voor handbook — 2026-07-14 (handbook 6f1abf2):
+      importlijst als trust root mens-vereist; org-pagina's autonoom
+- [x] 2.4 monitoring: `docs/AGENTS.md` én legacy `.cursor/rules/`
+      verwijderd, index-verwijzing rechtgezet (monitoring 71ea0a6).
+      Bijvangst genoteerd: techbook/handbook missen scripts/verify.sh
+      (northstar-pijler 1) en conventies.md is over twee repos
+      gedupliceerd — beide pre-existent, apart op te pakken
 
 ## 3. Fase 1 — skills op de sterkste gates
 
