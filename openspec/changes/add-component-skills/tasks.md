@@ -2,9 +2,8 @@
 
 ## 1. Besluit
 
-- [ ] 1.1 MENS: voorstel + fasering akkoord (dit is codificatie van
-      bestaand cataloog-gedrag, geen nieuwe autonomie — maar de omvang
-      raakt alle 11 repos)
+- [x] 1.1 MENS: AKKOORD (Mark, 2026-07-14) — voorstel + fasering; fase 0
+      direct gestart
 
 ## 2. Fase 0 — voorwaarden
 

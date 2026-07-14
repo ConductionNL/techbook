@@ -4,11 +4,10 @@
 
 - [x] 1.1 MENS: GO fase 1 (Mark, 2026-07-14) — Argo-status via bestaande
       RBAC, nul nieuwe permissies
-- [ ] 1.2 MENS: go/no-go fase 2 (Prometheus): toegangsroute + auth naar
-      de monitoring-namespace (egress-historie meewegen: 2× DNS-breuk
-      onder Gardener/Calico) én de named-query-catalogus vaststellen
-      (voorzet: deployments-unavailable, node-saturatie, pod-restarts,
-      PVC-vulling)
+- [x] 1.2 MENS: GO fase 2 (Mark, 2026-07-14) op basis van design.md —
+      route 1 (in-cluster Service-URL, env-tunable), catalogus van 8
+      named queries; 9090/TCP t.z.t. expliciet in de egress-policy
+      (genoteerd in de policy-kop)
 
 ## 2. Fase 1 — platform_status (Argo)
 
