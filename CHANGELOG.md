@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-07-14 — change add-assistant-live-status gespecct (voorstel, mens beslist)
+
+- Aanleiding: eerste gebruiksdag van de assistent leverde direct
+  live-statusvragen op ("hoeveel deployments degraded", node-vragen).
+- Twee fasen achter een eigen go/no-go: `platform_status` (Argo, via de
+  RBAC die de webgui-pod al heeft — nul nieuwe permissies) en
+  `metrics_query` (Prometheus, vaste named-query-catalogus, dekt nodes).
+- Spec-delta: live data gelabeld en gescheiden van handboek-herkomst,
+  géén vrije PromQL/kubectl, elke tool-aanroep in het audit-record.
+
 ## 2026-07-13 — eigenaarschap → info@conduction.nl (review WP8)
 - Alle `owner:`-front-matter en CODEOWNERS omgezet van `mark` naar
   `info@conduction.nl` (opvolging na 2026-08-31). Voorbereid op branch
