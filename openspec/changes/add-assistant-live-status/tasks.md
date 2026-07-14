@@ -20,8 +20,9 @@
       backend weg = eerlijk + terugval op handboek — zelfde commit
 - [x] 2.3 Audit: `status_calls`-veld per aanroep; record nu in `finally`
       (schreef eerder niets bij client-disconnect) — zelfde commit
-- [ ] 2.4 Image 0.3.2 bouwen/pushen + Argo-sync (mens; newTag staat
-      klaar), daarna live verify (zie 4.1)
+- [x] 2.4 Image 0.3.2 live (2026-07-14, Argo Synced/Healthy). Bijvangst:
+      `make push` verifieert nu de registry-tag (3× stille push-fout
+      diezelfde dag; openwoo-app-config bb3727d)
 
 ## 3. Fase 2 — metrics_query (Prometheus, na 1.2)
 
@@ -35,9 +36,11 @@
 
 ## 4. Verify & archive
 
-- [ ] 4.1 Scenario's uit de spec-delta aantonen (live antwoord gelabeld;
-      backend-uitval → eerlijk; vrije-query-poging → weigering;
-      audit-record met tool-aanroep)
+- [x] 4.1 Scenario's aangetoond (2026-07-14): live vraag → antwoord
+      "Live gemeten (bron: Argo CD, opgehaald …)" met status_call in het
+      audit-record (weergave=degraded, apps=248); node-vraag → eerlijk
+      "nog geen tool, fase 2"; vrije input en backend-uitval gedekt in
+      unit tests (test_assistant.py)
 - [ ] 4.2 Meedraaien in de proefdraaimaand van add-platform-assistant;
       kosten/nut evalueren
 - [ ] 4.3 Archive
