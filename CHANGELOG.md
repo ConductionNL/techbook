@@ -1,5 +1,22 @@
 # Changelog
 
+## 2026-07-14 (avond) — change add-component-skills gespecct + fase-2-design live-status
+
+- **add-component-skills** (voorstel, mens beslist): per deelnemende repo
+  skills voor de gecatalogiseerde kernoperaties (referentiepatroon:
+  Nextcloud-base `tenant-toevoegen`), in vier fasen. Gebaseerd op een
+  inventarisatie van alle 11 repos (agent-run): 8 repos hebben nul
+  skills, en hub/techbook/handbook missen zélf een operatiecataloog —
+  fase 0 dicht dat eerst. Spec-delta op agent-guardrails: skills volgen
+  hun cataloog; programma-repos catalogiseren ook; één agent-waarheid
+  per repo (monitoring's legacy AGENTS.md eruit). Assistent-northstar
+  expliciet: read-only/voorstel-delen van skills zijn later door de
+  webgui-assistent te erven.
+- **add-assistant-live-status**: design.md toegevoegd als besluit-input
+  voor go/no-go 1.2 (fase 2) — named-query-catalogus (8 queries) en
+  drie toegangsroutes naar Prometheus, met advies (in-cluster Service-
+  URL, 9090 t.z.t. in de egress-policy).
+
 ## 2026-07-14 — change add-assistant-live-status gespecct (voorstel, mens beslist)
 
 - Aanleiding: eerste gebruiksdag van de assistent leverde direct
