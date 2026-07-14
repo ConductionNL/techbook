@@ -25,13 +25,17 @@
 
 ## 3. Fase 2 — metrics_query (Prometheus, na 1.2)
 
-- [ ] 3.1 Query-catalogus vastleggen in docs (per query: naam, PromQL,
-      wat hij beantwoordt, wat bewust niet)
-- [ ] 3.2 Netwerkroute + auth naar Prometheus (monitoring); besluit
-      documenteren in beide repos
-- [ ] 3.3 Tool `metrics_query` (alleen catalogus-namen); unit tests
-      incl. onbekende naam → weigering
-- [ ] 3.4 Image + deploy
+- [x] 3.1 Query-catalogus vastgelegd — design.md (8 queries) + in code
+      (METRIC_QUERIES) + deploy-README (2026-07-14)
+- [x] 3.2 Route: in-cluster Service-URL (`PROMETHEUS_URL`, expliciet in
+      deployment.yaml met 9090/TCP-egress-notitie; ook in de kop van
+      networkpolicy-egress.yaml) — geen nieuw auth/ingress-oppervlak
+- [x] 3.3 Tool `metrics_query` gebouwd (openwoo-app-config 3c7be29):
+      alleen catalogus-namen, vrije PromQL geweigerd, eerlijk bij
+      onbereikbare backend, status_calls-audit; 6 tests, suites groen
+- [ ] 3.4 Image 0.4.0 bouwen/pushen (make release) + Argo-sync (mens),
+      daarna live verify: metrics-vraag → "Live gemeten (bron:
+      Prometheus …)" + status_call in audit
 
 ## 4. Verify & archive
 
