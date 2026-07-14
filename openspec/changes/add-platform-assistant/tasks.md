@@ -34,21 +34,32 @@
       NDJSON-stream /api/assistant/ask; bronnen linken naar de
       Codeberg-bron (interne site volgt met change 4); card op home
 - [ ] 3.2 Egress: api.anthropic.com + codeberg.org vanuit de
-      webgui-namespace (NetworkPolicy/allowlist) — VOORBEREID 2026-07-13:
-      `webgui/deploy/networkpolicy-egress.yaml` (apart terugdraaibaar
-      object; hostnaam-pinnen kan niet in vanilla Calico → extern
-      443-only + DNS + kube-API + in-cluster HTTP; risico-analyse en
-      testchecklist in de file-kop). Apply + checklist = mens
-- [ ] 3.3 Image + Argo-deploy volgens het bestaande webgui-patroon —
-      VOORBEREID 2026-07-13: Dockerfile (git + hub gepind op sha met
-      build-verificatie, claude-CLI zit gebundeld in de SDK-wheel),
-      deployment-env/volumes/limits, secret-template `openwoo-assistant`,
-      newTag 0.3.0. Bouwen/pushen (make image/push) en syncen = mens;
-      image éérst pushen, dan mergen
+      webgui-namespace — GEPROBEERD EN TERUGGETROKKEN 2026-07-13: de
+      policy (extern 443-only + DNS + kube-API + in-cluster HTTP; hostnaam-
+      pinnen kan niet in vanilla Calico) brak DNS op prod ondanks correcte
+      kube-system/53-regel — tweede bevestigde breuk onder Gardener/Calico.
+      Bevindingen + debug-pod-experiment in de kop van
+      `openwoo-app-config webgui/deploy/networkpolicy-egress.yaml`
+      (file bestaat, staat uit de kustomization). Heropenen als los
+      experiment, niet blokkerend voor de change
+- [x] 3.3 Image + Argo-deploy volgens het bestaande webgui-patroon —
+      LIVE 2026-07-13: image 0.3.0 (Dockerfile: git + hub gepind op sha
+      met build-verificatie; claude-CLI gebundeld in de SDK-wheel),
+      deployment-env/volumes/limits, secret `openwoo-assistant`
+      (oauth-token, testfase-afwijking). Argo Synced/Healthy; /assistant
+      werkt op platform.commonground.nu. Incident onderweg (apply van
+      secret-template overschreef werkende secrets) verholpen en
+      structureel gedefused — zie openwoo-app-config CHANGELOG 2026-07-13
 
 ## 4. Verify & archive
 
-- [ ] 4.1 Scenario's uit de spec-delta aantonen (gegrond antwoord,
-      buiten-handboek-weigering, injectie-poging, audit-entry)
-- [ ] 4.2 Maand proefdraaien met het team; kosten en kwaliteit reviewen
+- [x] 4.1 Scenario's uit de spec-delta aangetoond — server-side via de
+      model-benchmark (2026-07-13, 33 runs: gegrond mét bronnen,
+      buiten-handboek-weigering, injectie-weigering op alle drie de
+      modellen) én live op platform.commonground.nu door Mark (2026-07-14)
+- [ ] 4.2 Maand proefdraaien met het team; kosten en kwaliteit reviewen.
+      Modelkeuze (ASSISTANT_MODEL) volgt nadat het team de testset
+      (webgui/benchmark.py, 11 vragen) zelf over de modellen heeft
+      gedraaid — agent-run: default 9/9 (39s gem.), haiku 9/9 (21s gem.),
+      sonnet 6/9 (intermitterende MCP-permissieweigering, apart uitzoeken)
 - [ ] 4.3 Archive this change
