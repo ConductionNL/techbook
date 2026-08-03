@@ -23,7 +23,13 @@
 
 set -euo pipefail
 
-readonly HOOK_REPO_URL="https://codeberg.org/Conduction/techbook"
+# Hook-bron. Sinds 2026-08-03 GitHub: de fleet is terugmigreerd en de
+# Codeberg-mirrors lopen achter (7 van 9 repos gemeten uit elkaar). Dit
+# script schreef de Codeberg-URL in élke repo, dus het hield die
+# afhankelijkheid in stand — vandaar hier de fix, niet alleen bij de
+# consumenten. Env-tunable zodat terugvallen op de fallback-forge een
+# one-liner blijft.
+readonly HOOK_REPO_URL="${HOOK_REPO_URL:-https://github.com/ConductionNL/techbook}"
 readonly REPO_ROOT="${REPO_ROOT:-$HOME/CONDUCTION}"
 readonly ALL_REPOS=(react-base Nextcloud-base cluster-infra KeyCloak talos
                     cluster-config monitoring openwoo-app-config)
@@ -92,6 +98,14 @@ rollout_repo() {
   if [[ -f "${config}" ]]; then
     if grep -q "${HOOK_REPO_URL}" "${config}"; then
       log "${name}: al geconfigureerd — alleen hook (her)installeren"
+    elif grep -q "codeberg.org/Conduction/techbook" "${config}"; then
+      # Onderscheid van het geval hieronder: de entry bestaat wél, maar
+      # wijst nog naar de fallback-forge. Zonder deze tak kreeg je
+      # "voeg de hook toe" terwijl hij er al staat.
+      warn "${name}: techbook-entry staat nog op codeberg.org;"
+      warn "${name}: zet de repo-URL om naar ${HOOK_REPO_URL} (rev blijft"
+      warn "${name}: geldig — zelfde commit op beide forges)"
+      return 1
     else
       warn "${name}: bestaande .pre-commit-config.yaml zonder techbook-entry;"
       warn "${name}: voeg de docs-contract hook handmatig toe (zie usage-blok)"
