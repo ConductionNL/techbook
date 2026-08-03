@@ -30,6 +30,15 @@ set -euo pipefail
 # consumenten. Env-tunable zodat terugvallen op de fallback-forge een
 # one-liner blijft.
 readonly HOOK_REPO_URL="${HOOK_REPO_URL:-https://github.com/ConductionNL/techbook}"
+readonly FALLBACK_HOOK_REPO_URL="https://codeberg.org/Conduction/techbook"
+
+# Repos die de hook bewust van de fallback-forge halen. `talos` ís de
+# fallback-CI op Codeberg; die zijn gates laten afhangen van GitHub zou
+# precies breken op het moment dat je talos nodig hebt (GitHub weg of
+# opnieuw geflagged). Een fallback mag niet leunen op wat hij vervangt.
+declare -rA USE_FALLBACK_FORGE=(
+  [talos]=1
+)
 readonly REPO_ROOT="${REPO_ROOT:-$HOME/CONDUCTION}"
 readonly ALL_REPOS=(react-base Nextcloud-base cluster-infra KeyCloak talos
                     cluster-config monitoring openwoo-app-config)
@@ -43,12 +52,12 @@ log() { echo "$*"; }
 warn() { echo "waarschuwing: $*" >&2; }
 
 write_config() {
-  local repo_dir="$1" rev="$2"
+  local repo_dir="$1" rev="$2" hook_url="$3"
   cat > "${repo_dir}/.pre-commit-config.yaml" <<EOF
 # Gate-mode hooks (nooit auto-fix). Activeren:
 #   pre-commit install --hook-type pre-push
 repos:
-  - repo: ${HOOK_REPO_URL}
+  - repo: ${hook_url}
     rev: ${rev}
     hooks:
       - id: docs-contract
@@ -94,16 +103,22 @@ rollout_repo() {
     return 1
   fi
 
+  local hook_url="${HOOK_REPO_URL}"
+  if [[ -n "${USE_FALLBACK_FORGE[${name}]:-}" ]]; then
+    hook_url="${FALLBACK_HOOK_REPO_URL}"
+    log "${name}: bewust op de fallback-forge (${hook_url})"
+  fi
+
   local config="${repo_dir}/.pre-commit-config.yaml"
   if [[ -f "${config}" ]]; then
-    if grep -q "${HOOK_REPO_URL}" "${config}"; then
+    if grep -q "${hook_url}" "${config}"; then
       log "${name}: al geconfigureerd — alleen hook (her)installeren"
-    elif grep -q "codeberg.org/Conduction/techbook" "${config}"; then
+    elif grep -q "${FALLBACK_HOOK_REPO_URL}" "${config}"; then
       # Onderscheid van het geval hieronder: de entry bestaat wél, maar
       # wijst nog naar de fallback-forge. Zonder deze tak kreeg je
       # "voeg de hook toe" terwijl hij er al staat.
       warn "${name}: techbook-entry staat nog op codeberg.org;"
-      warn "${name}: zet de repo-URL om naar ${HOOK_REPO_URL} (rev blijft"
+      warn "${name}: zet de repo-URL om naar ${hook_url} (rev blijft"
       warn "${name}: geldig — zelfde commit op beide forges)"
       return 1
     else
@@ -112,7 +127,7 @@ rollout_repo() {
       return 1
     fi
   else
-    write_config "${repo_dir}" "${rev}"
+    write_config "${repo_dir}" "${rev}" "${hook_url}"
     append_verify_hook "${repo_dir}"
     git -C "${repo_dir}" add .pre-commit-config.yaml
     git -C "${repo_dir}" commit --quiet -m \

@@ -21,10 +21,20 @@ niet volgehouden (7 van de 9 repos zijn daar uit elkaar gelopen).
 - `.pre-commit-hooks.yaml`: het usage-voorbeeld naar GitHub.
 - `README.md`: de handbook-link naar `github.com/ConductionNL/handbook`.
 
+- **`talos` blijft bewust op de fallback-forge.** Nieuwe
+  `USE_FALLBACK_FORGE`-map in het script, geen losse opmerking: talos *ís*
+  de fallback-CI op Codeberg, en zijn gates laten afhangen van GitHub zou
+  precies breken op het moment dat je talos nodig hebt (GitHub weg of
+  opnieuw geflagged). Een fallback mag niet leunen op wat hij vervangt.
+  `write_config()` krijgt de URL nu als parameter in plaats van via de
+  globale, zodat die uitzondering ook geldt bij een verse uitrol.
+
 De pin blijft `edf269ee…`: geverifieerd dat die commit op GitHub bestaat
 én voorouder van `origin/main` daar is. Zelfde commit, zelfde hooks
 (`docs-contract`, `docs-claims`) — de omzetting is dus host-only, geen
-gedragswijziging.
+gedragswijziging. Functioneel doorgetest in `cluster-config`:
+`pre-commit install-hooks` exit 0 en `docs-contract` passeert in de
+pre-push-stage.
 
 Ook geverifieerd dat `github.com` al in de squid-allowlist van talos staat
 (base én `con-ci-oci`-overlay), dus CI achter default-deny egress kan de
