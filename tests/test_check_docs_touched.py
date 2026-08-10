@@ -9,6 +9,7 @@ Draaien: uv run --with pytest --with pyyaml --with pathspec \
 
 import argparse
 import importlib.util
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -47,8 +48,13 @@ def write_config(repo: Path, data=None) -> Path:
 # --- git-helpers voor de integratietests ---------------------------------
 
 def git(repo: Path, *args) -> str:
+    # clean_git_env() is hier geen nette-code-detail maar de kern van de
+    # isolatie: zonder dit schrijven deze fixtures in de repo waarin de suite
+    # draait zodra hij als git-hook wordt aangeroepen. `-C` alleen is niet
+    # genoeg. Zie REPO_ENV_VARS in het script.
     return subprocess.run(["git", "-C", str(repo), *args], check=True,
-                          capture_output=True, text=True).stdout
+                          capture_output=True, text=True,
+                          env=cdt.clean_git_env()).stdout
 
 
 def make_repo(tmp_path, name="repo") -> Path:
@@ -392,3 +398,52 @@ class TestHookDefinition:
     def test_own_config_is_parseable(self):
         config = cdt.load_config(ROOT / cdt.CONFIG_NAME)
         assert config is not None and config.mode in cdt.MODES
+
+
+# --- isolatie onder een hook-omgeving ------------------------------------
+#
+# Deze klasse bestaat om één concreet incident: op 2026-08-10 draaide deze
+# suite als pre-push hook. Git zet dan GIT_DIR, `git -C <tmpdir>` negeert dat,
+# en elke fixture-commit landde in de repo die gepusht werd — 24 stuks, plus
+# `core.bare=true` in twee repos. Los draaien liet niets zien.
+#
+# De lokvogel hieronder is de test die dat wél had gevangen.
+
+class TestHookEnvironmentIsolation:
+    def test_repo_env_vars_are_stripped(self):
+        vuil = {var: "/pad/naar/andere/repo" for var in cdt.REPO_ENV_VARS}
+        schoon = cdt.clean_git_env({**vuil, "PATH": "/usr/bin"})
+        for var in cdt.REPO_ENV_VARS:
+            assert var not in schoon, f"{var} lekt door naar het subproces"
+        assert schoon["PATH"] == "/usr/bin"
+        assert schoon["GIT_TERMINAL_PROMPT"] == "0"
+
+    def test_fixtures_do_not_touch_the_repo_git_dir_points_at(self, tmp_path):
+        """Met GIT_DIR gezet mag een fixture-repo de lokvogel niet raken."""
+        lokvogel = make_repo(tmp_path, name="lokvogel")
+        commit(lokvogel, {"a.txt": "hoi\n"}, "echte commit")
+        voor = git(lokvogel, "rev-parse", "HEAD").strip()
+
+        monkey = {"GIT_DIR": str(lokvogel / ".git"),
+                  "GIT_WORK_TREE": str(lokvogel)}
+        oud = {var: os.environ.get(var) for var in monkey}
+        os.environ.update(monkey)
+        try:
+            # Precies wat de integratietests doen, nu onder een hook-omgeving.
+            repo = make_repo(tmp_path, name="fixture")
+            write_config(repo)
+            base = commit(repo, {"docs/index.md": "x\n"}, "init")
+            commit(repo, {"nextcloud-platform/values.yaml": "a: 1\n"}, "code")
+            assert run(repo, base, mode="enforce") == 1
+        finally:
+            for var, waarde in oud.items():
+                if waarde is None:
+                    os.environ.pop(var, None)
+                else:
+                    os.environ[var] = waarde
+
+        na = git(lokvogel, "rev-parse", "HEAD").strip()
+        assert na == voor, "fixture-commits zijn in de lokvogel-repo geland"
+        assert git(lokvogel, "status", "--porcelain") == "", \
+            "de lokvogel-werkboom is aangeraakt"
+        assert git(lokvogel, "config", "--get", "core.bare").strip() == "false"

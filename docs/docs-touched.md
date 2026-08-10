@@ -136,3 +136,26 @@ dus alleen unit-tests zouden liegen. Draaien:
 
     uv run --with pytest --with pyyaml --with pathspec \
         python -m pytest tests/ -q
+
+### Waarom elke git-aanroep de omgeving schoonveegt
+
+`git -C <pad>` bepaalt **niet** op welke repo git werkt zodra `GIT_DIR` in
+de omgeving staat: dan wint `GIT_DIR`. Git zet die variabele zelf in de
+omgeving van elke hook, en deze gate draait juist als pre-push hook. Een
+testfixture die een tijdelijke repo aanmaakt, schrijft daardoor in de repo
+die je op dat moment pusht.
+
+Dat is hier gebeurd. Op 2026-08-10 draaide deze suite als pre-push hook en
+zette 24 fixture-commits op de branch die gepusht werd, plus `core.bare=true`
+in twee repos. De tests waren correct geschreven — `tmp_path`, overal
+`git -C` — en tóch niet geïsoleerd. Los draaien laat het niet zien, want dan
+staat `GIT_DIR` niet gezet.
+
+Daarom loopt élke git-aanroep, in het script én in de tests, via
+`clean_git_env()` (zie `REPO_ENV_VARS` in `scripts/check_docs_touched.py`).
+`TestHookEnvironmentIsolation` bewaakt dat met een lokvogel-repo: hij zet
+`GIT_DIR` naar die repo, draait de hele integratieweg, en eist daarna dat de
+lokvogel onaangeroerd is. Zonder de schoonmaak faalt die test hard.
+
+Schrijf je elders een test die git-repo's aanmaakt, neem dan hetzelfde
+patroon over.

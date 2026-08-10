@@ -1,5 +1,25 @@
 # Changelog
 
+## 2026-08-10 — testisolatie: git-omgeving schoonvegen vóór elke aanroep
+
+- **Aanleiding, een echt incident.** De suite hieronder draaide als
+  pre-push hook. Git zet dan `GIT_DIR` in de omgeving van elk subproces, en
+  `git -C <tmpdir>` overrulet dat niet — `GIT_DIR` wint. Gevolg: 24
+  fixture-commits op de branch die gepusht werd, de tip-tree van die branch
+  vervangen door een fixture-tree, en `core.bare=true` in twee repos. De
+  tests waren correct geschreven (`tmp_path`, overal `git -C`) en tóch niet
+  geïsoleerd; los draaien liet niets zien, want dan staat `GIT_DIR` niet
+  gezet.
+- **Fix op één plek:** `clean_git_env()` + `REPO_ENV_VARS` in
+  `scripts/check_docs_touched.py`, gebruikt door élke git-aanroep in het
+  script én in de tests. Ook het script zelf erfde `os.environ` ongefilterd,
+  waardoor `--repo` bij een gezette `GIT_DIR` de verkeerde repo kon meten.
+- **Bewaakt door `TestHookEnvironmentIsolation`:** een lokvogel-repo waar
+  `GIT_DIR` naar wijst moet na de hele integratieweg onaangeroerd zijn.
+  Zonder de schoonmaak faalt die test hard — nagelopen in beide richtingen.
+- **Breder dan deze repo:** elke suite die git-repo's als fixture aanmaakt
+  en als hook kan draaien heeft dezelfde blootstelling.
+
 ## 2026-08-10 — docs-touched: de diff-gate achter "dezelfde PR"
 
 - **Aanleiding:** `docs/conventies.md` §7 ("documentatie wijzigt in

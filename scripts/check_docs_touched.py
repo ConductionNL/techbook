@@ -269,11 +269,49 @@ def valid_exemption(message: str, trailer: str, min_len: int) -> str | None:
 
 # --- git ------------------------------------------------------------------
 
+# Variabelen die een git-aanroep naar een ándere repo omleiden. `-C <pad>`
+# overrulet ze NIET: staat GIT_DIR gezet, dan wint GIT_DIR en werkt het
+# commando op de repo waar die naar wijst. Git zet ze zelf in de omgeving van
+# elke hook, en deze gate draait juist als pre-push hook — dus elk
+# git-subproces hieronder moet ze wegvegen.
+#
+# Dit is geen theoretisch risico: op 2026-08-10 draaide de testsuite van dit
+# script als pre-push hook en schreef daardoor 24 fixture-commits in de repo
+# die gepusht werd, plus `core.bare=true` in twee repos. De tests waren
+# correct geschreven (tmp_path, overal `git -C`) en tóch niet geïsoleerd.
+# Los draaien laat dat niet zien, want dan staat GIT_DIR niet gezet.
+REPO_ENV_VARS = (
+    "GIT_DIR",
+    "GIT_WORK_TREE",
+    "GIT_INDEX_FILE",
+    "GIT_OBJECT_DIRECTORY",
+    "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+    "GIT_COMMON_DIR",
+    "GIT_NAMESPACE",
+    "GIT_CEILING_DIRECTORIES",
+    "GIT_PREFIX",
+    "GIT_INDEX_VERSION",
+)
+
+
+def clean_git_env(environ=None) -> dict:
+    """De omgeving zonder de variabelen die git naar een andere repo omleiden.
+
+    Gebruik dit voor élke git-aanroep — ook in tests die fixture-repo's
+    aanmaken. Zie REPO_ENV_VARS voor het waarom.
+    """
+    env = dict(os.environ if environ is None else environ)
+    for var in REPO_ENV_VARS:
+        env.pop(var, None)
+    env["GIT_TERMINAL_PROMPT"] = "0"
+    return env
+
+
 def git(repo: Path, args, timeout: int) -> str:
     result = subprocess.run(
         ["git", "-C", str(repo), *args],
         capture_output=True, text=True, timeout=timeout,
-        env={**os.environ, "GIT_TERMINAL_PROMPT": "0"})
+        env=clean_git_env())
     if result.returncode != 0:
         raise GitError(f"git {' '.join(args)}: "
                        f"{result.stderr.strip() or 'exit ' + str(result.returncode)}")
