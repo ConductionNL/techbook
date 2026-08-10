@@ -1,5 +1,48 @@
 # Changelog
 
+## 2026-08-03 — hook-bron naar GitHub (bron van de Codeberg-afhankelijkheid)
+
+Acht repos haalden hun pre-commit-hooks uit
+`codeberg.org/Conduction/techbook`. Dat was de laatste harde
+Codeberg-afhankelijkheid in de fleet buiten talos: zolang die bleef, moest
+techbook naar twee forges gepusht blijven worden — en dat is aantoonbaar
+niet volgehouden (7 van de 9 repos zijn daar uit elkaar gelopen).
+
+- `scripts/rollout_precommit_hook.sh`: `HOOK_REPO_URL` naar
+  `github.com/ConductionNL/techbook`, env-tunable. **Dit script was de
+  oorzaak**, niet de acht consumenten: het schreef die URL in elke repo,
+  dus elke nieuwe deelnemer kreeg de Codeberg-afhankelijkheid er
+  automatisch bij. Zelfde patroon als `clone_all.sh` in hub.
+- Nieuwe tak in `rollout_repo()`: staat de techbook-entry er wél maar nog
+  op `codeberg.org`, dan zegt het script dát in plaats van "voeg de hook
+  handmatig toe". Zonder die tak kreeg je tijdens de migratie een
+  misleidende waarschuwing over een hook die er al stond. Het script
+  overschrijft nog steeds geen bestaande config.
+- `.pre-commit-hooks.yaml`: het usage-voorbeeld naar GitHub.
+- `README.md`: de handbook-link naar `github.com/ConductionNL/handbook`.
+
+- **`talos` blijft bewust op de fallback-forge.** Nieuwe
+  `USE_FALLBACK_FORGE`-map in het script, geen losse opmerking: talos *ís*
+  de fallback-CI op Codeberg, en zijn gates laten afhangen van GitHub zou
+  precies breken op het moment dat je talos nodig hebt (GitHub weg of
+  opnieuw geflagged). Een fallback mag niet leunen op wat hij vervangt.
+  `write_config()` krijgt de URL nu als parameter in plaats van via de
+  globale, zodat die uitzondering ook geldt bij een verse uitrol.
+
+De pin blijft `edf269ee…`: geverifieerd dat die commit op GitHub bestaat
+én voorouder van `origin/main` daar is. Zelfde commit, zelfde hooks
+(`docs-contract`, `docs-claims`) — de omzetting is dus host-only, geen
+gedragswijziging. Functioneel doorgetest in `cluster-config`:
+`pre-commit install-hooks` exit 0 en `docs-contract` passeert in de
+pre-push-stage.
+
+Ook geverifieerd dat `github.com` al in de squid-allowlist van talos staat
+(base én `con-ci-oci`-overlay), dus CI achter default-deny egress kan de
+hooks blijven ophalen.
+
+Gecontroleerd: `check_docs_contract.py` 0 bevindingen, `check_docs_claims.py`
+schoon.
+
 ## 2026-07-14 (avond) — change add-component-skills gespecct + fase-2-design live-status
 
 - **add-component-skills** (voorstel, mens beslist): per deelnemende repo

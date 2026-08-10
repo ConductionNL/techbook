@@ -1,7 +1,7 @@
 # Exporteerbare hooks — consumeer in een deelnemende repo via:
 #
 #   repos:
-#     - repo: https://codeberg.org/Conduction/techbook
+#     - repo: https://github.com/ConductionNL/techbook
 #       rev: <tag-of-sha>
 #       hooks:
 #         - id: docs-contract
