@@ -1,5 +1,5 @@
 ---
-last_reviewed: 2026-07-06
+last_reviewed: 2026-08-10
 owner: info@conduction.nl
 ---
 
@@ -20,3 +20,6 @@ openspec-changes in dit repo.
   deelnemende repos (referentie).
 - [Hookset en pin-beheer](hooks.md) — de gedeelde gates en de
   bump-procedure (referentie/how-to).
+- [docs-touched](docs-touched.md) — de diff-gate die docs met de code
+  laat meewijzigen: configformaat, vrijstelling, verificatie
+  (referentie).

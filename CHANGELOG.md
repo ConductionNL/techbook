@@ -1,5 +1,34 @@
 # Changelog
 
+## 2026-08-10 — docs-touched: de diff-gate achter "dezelfde PR"
+
+- **Aanleiding:** `docs/conventies.md` §7 ("documentatie wijzigt in
+  dezelfde PR als de code die zij beschrijft") werd door niets
+  afgedwongen. `docs-contract` en `docs-claims` draaien allebei met
+  `always_run` over de hele boom; geen script keek naar de diff.
+- **Nieuw:** `scripts/check_docs_touched.py` + hook `docs-touched`
+  (pre-push, geen `args:`). Beoordeelt de commits die gepusht worden en
+  faalt als docs-plichtige paden wijzigen zonder docs.
+- **Config:** `.docs-touched.yaml` in de repo-root — bewust niet in
+  `args:`, want `scripts/rollout_precommit_hook.sh` herschrijft
+  `.pre-commit-config.yaml` in zijn geheel. Elke drempel, mode en
+  patroon staat erin; in het script staan alleen defaults.
+- **Twee stille-faal-hendels, allebei luidruchtig gemaakt:** zonder
+  diff-context (geen refs, dus ook bij `--all-files` en root-commits) en
+  zonder configbestand slaat de hook zichzelf zichtbaar over met exit 0.
+  Er wordt nooit een baseline als `origin/main` geraden.
+- **Vrijstelling per commit** via de trailer `Docs-not-needed: <reden>`;
+  per push zou één trailer op een triviale commit de rest vrijstellen.
+- **Dogfooding:** techbook draait de gate op zichzelf in `mode: warn`.
+- **Tests:** `tests/test_check_docs_touched.py` — pure functies plus
+  integratie op echte tijdelijke git-repos (75 tests groen in de suite).
+  De `tests`-hook draait nu met `--with pathspec`.
+- **Docs:** nieuwe pagina `docs/docs-touched.md`; §7 en §Naleving van
+  `docs/conventies.md`, `docs/index.md` en `docs/hooks.md` bijgewerkt.
+- **Openspec:** change `add-docs-touched-gate` (spec-delta op
+  `docs-quality`). Uitrol naar de consumers staat er expliciet als
+  openstaande taak in en is in deze wijziging niet gedaan.
+
 ## 2026-07-14 (avond) — change add-component-skills gespecct + fase-2-design live-status
 
 - **add-component-skills** (voorstel, mens beslist): per deelnemende repo
