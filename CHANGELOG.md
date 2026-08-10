@@ -28,6 +28,11 @@
 - **Openspec:** change `add-docs-touched-gate` (spec-delta op
   `docs-quality`). Uitrol naar de consumers staat er expliciet als
   openstaande taak in en is in deze wijziging niet gedaan.
+- **Fix:** `hub` ontbrak in `ALL_REPOS` van
+  `scripts/rollout_precommit_hook.sh`, terwijl die repo de techbook-hooks
+  wél consumeert — `--all` sloeg hem dus over bij elke rev-bump.
+  `KeyCloak` staat er bewust in en blijft staan: die repo heeft nog geen
+  `.pre-commit-config.yaml`, wat precies is wat het script schrijft.
 
 ## 2026-07-14 (avond) — change add-component-skills gespecct + fase-2-design live-status
 

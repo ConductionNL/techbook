@@ -26,7 +26,7 @@ set -euo pipefail
 readonly HOOK_REPO_URL="https://codeberg.org/Conduction/techbook"
 readonly REPO_ROOT="${REPO_ROOT:-$HOME/CONDUCTION}"
 readonly ALL_REPOS=(react-base Nextcloud-base cluster-infra KeyCloak talos
-                    cluster-config monitoring openwoo-app-config)
+                    cluster-config monitoring openwoo-app-config hub)
 
 usage() {
   sed -n '5,23p' "$0" >&2
