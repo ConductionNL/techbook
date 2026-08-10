@@ -1,5 +1,5 @@
 ---
-last_reviewed: 2026-07-10
+last_reviewed: 2026-08-10
 owner: info@conduction.nl
 ---
 
@@ -21,6 +21,11 @@ de referentie voor wat er draait en hoe je de pin bumpt.
 
 Nieuwe repo? `scripts/rollout_precommit_hook.sh --rev <sha> <pad>`
 schrijft dit geheel en installeert de hook.
+
+Techbook exporteert daarnaast [`docs-touched`](docs-touched.md), de
+diff-gate op docs-as-code. Die staat **nog niet** in de consumer-configs:
+uitrollen is een aparte stap (rev-bump plus een `.docs-touched.yaml` per
+repo) die pas kan nadat deze hook in techbook-main zit.
 
 ## Pin bumpen (procedure)
 

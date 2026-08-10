@@ -1,5 +1,5 @@
 ---
-last_reviewed: 2026-07-06
+last_reviewed: 2026-08-10
 owner: info@conduction.nl
 ---
 
@@ -77,7 +77,9 @@ elke docs-wijziging een verantwoordelijke reviewer heeft:
 ## 7. Docs-as-code
 
 Documentatie wijzigt in dezelfde PR als de code die zij beschrijft.
-"Klaar" betekent: code, tests én docs bijgewerkt. Pagina's blijven
+"Klaar" betekent: code, tests én docs bijgewerkt. Het mechanisme
+daarachter is de pre-push gate [`docs-touched`](docs-touched.md), die de
+diff van de push toetst aan `.docs-touched.yaml`. Pagina's blijven
 ≤ 200 regels; wordt een pagina groter, dan is dat meestal een teken dat
 er twee types (§3) in één bestand zitten.
 
@@ -87,3 +89,8 @@ De naleving wordt gecontroleerd met de herhaalbare audit
 ([audit-checklist](audit-checklist.md)) en — na openspec change
 `add-docs-drift-gates` — automatisch in de handboek-pipeline
 (freshness-gate op `last_reviewed`, linkcheck op de gebouwde site).
+
+Per repo bewaken pre-push gates het contract: `docs-contract` (§1, §2,
+§6), `docs-claims` (uitvoerbare claims) en `docs-touched` (§7 — docs
+wijzigen mee met de code). Zie [hooks.md](hooks.md) en
+[docs-touched.md](docs-touched.md).

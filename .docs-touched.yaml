@@ -1,0 +1,35 @@
+# Docs-as-code gate (docs/conventies.md §7). Zie docs/docs-touched.md.
+# Dit bestand staat bewust in de repo-root en niet in args: van
+# .pre-commit-config.yaml — scripts/rollout_precommit_hook.sh herschrijft
+# dat bestand in zijn geheel bij elke uitrol.
+version: 1
+
+# Techbook draait zijn eigen gate eerst een periode in warn: rapporteren,
+# niet blokkeren. Naar `enforce` zodra hij een maand rustig meedraait.
+mode: warn
+
+docs:
+  - "docs/**"
+  - "README.md"
+
+rules:
+  - name: gate-scripts
+    reason: >-
+      De gates zijn de afspraak; wijzigt hun gedrag, dan wijzigt de
+      referentie in docs/hooks.md of de betreffende gate-pagina mee.
+    paths:
+      - "scripts/**"
+      - ".pre-commit-hooks.yaml"
+    exclude:
+      - "**/*.lock"
+
+# Wijzigingen die per definitie geen documentatie vragen.
+ignore:
+  - ".github/**"
+  - ".forgejo/**"
+  - "tests/**"
+  - "CHANGELOG.md"
+
+escape:
+  trailer: "Docs-not-needed"
+  min_reason_len: 10

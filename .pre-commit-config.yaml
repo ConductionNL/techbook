@@ -19,9 +19,16 @@ repos:
         pass_filenames: false
         always_run: true
         stages: [pre-push]
+      - id: docs-touched
+        name: docs-touched (eigen script)
+        entry: scripts/check_docs_touched.py
+        language: script
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]
       - id: tests
         name: unit tests
-        entry: bash -c 'uv run --with pytest --with pyyaml python -m pytest tests/ -q'
+        entry: bash -c 'uv run --with pytest --with pyyaml --with pathspec python -m pytest tests/ -q'
         language: system
         pass_filenames: false
         always_run: true

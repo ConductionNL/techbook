@@ -33,3 +33,22 @@
   pass_filenames: false
   always_run: true
   stages: [pre-push]
+
+- id: docs-touched
+  name: docs-touched (docs wijzigen mee met de code)
+  description: >-
+    Diff-gate op docs-as-code (docs/conventies.md §7): faalt wanneer de te
+    pushen commits docs-plichtige paden raken zonder dat er documentatie
+    meewijzigt. De padregels, de mode (warn/enforce) en alle drempels staan
+    in .docs-touched.yaml in de repo-root — niet in args, omdat
+    rollout_precommit_hook.sh .pre-commit-config.yaml in zijn geheel
+    herschrijft. Vrijstelling is per commit via de trailer
+    'Docs-not-needed: <reden>'. Zonder diff-context (geen refs, zoals bij
+    --all-files of een root-commit) en zonder .docs-touched.yaml slaat de
+    hook zichzelf zichtbaar over met exit 0; er wordt nooit naar een
+    baseline geraden.
+  entry: scripts/check_docs_touched.py
+  language: script
+  pass_filenames: false
+  always_run: true
+  stages: [pre-push]

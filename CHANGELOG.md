@@ -1,5 +1,58 @@
 # Changelog
 
+## 2026-08-10 — testisolatie: git-omgeving schoonvegen vóór elke aanroep
+
+- **Aanleiding, een echt incident.** De suite hieronder draaide als
+  pre-push hook. Git zet dan `GIT_DIR` in de omgeving van elk subproces, en
+  `git -C <tmpdir>` overrulet dat niet — `GIT_DIR` wint. Gevolg: 24
+  fixture-commits op de branch die gepusht werd, de tip-tree van die branch
+  vervangen door een fixture-tree, en `core.bare=true` in twee repos. De
+  tests waren correct geschreven (`tmp_path`, overal `git -C`) en tóch niet
+  geïsoleerd; los draaien liet niets zien, want dan staat `GIT_DIR` niet
+  gezet.
+- **Fix op één plek:** `clean_git_env()` + `REPO_ENV_VARS` in
+  `scripts/check_docs_touched.py`, gebruikt door élke git-aanroep in het
+  script én in de tests. Ook het script zelf erfde `os.environ` ongefilterd,
+  waardoor `--repo` bij een gezette `GIT_DIR` de verkeerde repo kon meten.
+- **Bewaakt door `TestHookEnvironmentIsolation`:** een lokvogel-repo waar
+  `GIT_DIR` naar wijst moet na de hele integratieweg onaangeroerd zijn.
+  Zonder de schoonmaak faalt die test hard — nagelopen in beide richtingen.
+- **Breder dan deze repo:** elke suite die git-repo's als fixture aanmaakt
+  en als hook kan draaien heeft dezelfde blootstelling.
+
+## 2026-08-10 — docs-touched: de diff-gate achter "dezelfde PR"
+
+- **Aanleiding:** `docs/conventies.md` §7 ("documentatie wijzigt in
+  dezelfde PR als de code die zij beschrijft") werd door niets
+  afgedwongen. `docs-contract` en `docs-claims` draaien allebei met
+  `always_run` over de hele boom; geen script keek naar de diff.
+- **Nieuw:** `scripts/check_docs_touched.py` + hook `docs-touched`
+  (pre-push, geen `args:`). Beoordeelt de commits die gepusht worden en
+  faalt als docs-plichtige paden wijzigen zonder docs.
+- **Config:** `.docs-touched.yaml` in de repo-root — bewust niet in
+  `args:`, want `scripts/rollout_precommit_hook.sh` herschrijft
+  `.pre-commit-config.yaml` in zijn geheel. Elke drempel, mode en
+  patroon staat erin; in het script staan alleen defaults.
+- **Twee stille-faal-hendels, allebei luidruchtig gemaakt:** zonder
+  diff-context (geen refs, dus ook bij `--all-files` en root-commits) en
+  zonder configbestand slaat de hook zichzelf zichtbaar over met exit 0.
+  Er wordt nooit een baseline als `origin/main` geraden.
+- **Vrijstelling per commit** via de trailer `Docs-not-needed: <reden>`;
+  per push zou één trailer op een triviale commit de rest vrijstellen.
+- **Dogfooding:** techbook draait de gate op zichzelf in `mode: warn`.
+- **Tests:** `tests/test_check_docs_touched.py` — pure functies plus
+  integratie op echte tijdelijke git-repos (75 tests groen in de suite).
+  De `tests`-hook draait nu met `--with pathspec`.
+- **Docs:** nieuwe pagina `docs/docs-touched.md`; §7 en §Naleving van
+  `docs/conventies.md`, `docs/index.md` en `docs/hooks.md` bijgewerkt.
+- **Openspec:** change `add-docs-touched-gate` (spec-delta op
+  `docs-quality`). Uitrol naar de consumers staat er expliciet als
+  openstaande taak in en is in deze wijziging niet gedaan.
+- **Fix:** `hub` ontbrak in `ALL_REPOS` van
+  `scripts/rollout_precommit_hook.sh`, terwijl die repo de techbook-hooks
+  wél consumeert — `--all` sloeg hem dus over bij elke rev-bump.
+  `KeyCloak` staat er bewust in en blijft staan: die repo heeft nog geen
+  `.pre-commit-config.yaml`, wat precies is wat het script schrijft.
 ## 2026-08-03 — hook-bron naar GitHub (bron van de Codeberg-afhankelijkheid)
 
 Acht repos haalden hun pre-commit-hooks uit
