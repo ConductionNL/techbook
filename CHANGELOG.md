@@ -1,5 +1,31 @@
 # Changelog
 
+## 2026-08-17 — change add-gateway-api-bootstrap gespecct
+
+Gateway API (Envoy Gateway) naast ingress-nginx, met drie canary-routes.
+Aanleiding: `kubernetes/ingress-nginx` is upstream gearchiveerd (2026-03-24) en
+draait hier met `allow-snippet-annotations: true` +
+`annotations-risk-level: Critical` — elke namespace met Ingress-rechten kan
+nginx-configuratie injecteren, over ~50 gemeentetenants heen.
+
+Nieuwe capability `gateway-routing` met vijf requirements: de Gateway-laag is
+declaratief en gepind met gevendorde CRD's; CRD's worden nooit automatisch
+gepruned; migratie is coëxistentie (Ingress én HTTPRoute, DNS pas na
+bevestiging); gedragspariteit wordt **gemeten** en niet uit values afgeleid; en
+een host verhuist niet zolang zijn certificaat via HTTP-01 over de oude Ingress
+wordt vernieuwd.
+
+Uitvoering in `cluster-infra` — die repo heeft geen eigen openspec, dus dezelfde
+constructie als `add-argocd-selfmanaged`. De repo-plaatsing is onderbouwd in
+`design.md` (A.8.9, configuration management): er is geen ADR-conventie voor de
+cluster-repo's, de change zelf is de audit-trail.
+
+Vier premissen uit het oorspronkelijke voorstel bleken niet te kloppen tegen de
+live staat en hebben de scope veranderd — ze staan opgesomd onderaan
+`proposal.md`. De belangrijkste: de webfinger/CalDAV-set staat niet op de
+tenant-Ingresses maar in de nginx-sidecar in de pod, en blijft daar onveranderd
+achter de HTTPRoute staan.
+
 ## 2026-08-10 — testisolatie: git-omgeving schoonvegen vóór elke aanroep
 
 - **Aanleiding, een echt incident.** De suite hieronder draaide als
