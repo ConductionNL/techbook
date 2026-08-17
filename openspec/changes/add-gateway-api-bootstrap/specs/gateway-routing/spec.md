@@ -38,6 +38,28 @@ mens zijn.
 - THEN verwijdert Argo het bijbehorende CRD niet uit het cluster, en
   blijven bestaande Gateways en HTTPRoutes bestaan
 
+### Requirement: Het platform bezit de Gateway, de tenant bezit zijn route
+
+De `Gateway`, `GatewayClass` en het dataplane SHALL in de platformrepo staan.
+Een `HTTPRoute` SHALL komen uit dezelfde generator die de `Ingress` van diezelfde
+tenant rendert, en SHALL per tenant opt-in zijn. De platformrepo SHALL géén
+`destinations` naar tenant-namespaces hebben.
+
+Het aanzetten van een route bij één tenant SHALL de gerenderde uitvoer van
+andere tenants niet wijzigen.
+
+#### Scenario: Een tenant zet zijn route aan
+
+- WHEN een tenantbestand de opt-in-vlag krijgt
+- THEN rendert alleen die tenant een HTTPRoute, en blijven de Applications van
+  alle andere tenants byte-identiek
+
+#### Scenario: Platformrepo probeert in tenantruimte te schrijven
+
+- WHEN een manifest in de platformrepo een object in een tenant-namespace zet
+- THEN weigert het AppProject dat, omdat die namespace niet in `destinations`
+  staat
+
 ### Requirement: Migratie is coëxistentie, geen omzetting
 
 Een tenant SHALL tijdens de migratie zowel zijn bestaande `Ingress` als
@@ -88,3 +110,17 @@ verhuizen voordat de Gateway die uitgifte kan overnemen.
 - THEN blijft het DNS-record naar ingress-nginx wijzen en wordt de
   HTTPRoute gevalideerd door de resolutie te forceren tegen het adres
   van de Gateway
+
+### Requirement: De cutover is het weghalen van de Ingress
+
+Een migratie SHALL niet worden voltooid door een DNS-record bij te zetten naast
+een bestaande Ingress. Zolang die Ingress bestaat laat external-dns het record
+met rust, dus een nieuwe HTTPRoute verschuift geen verkeer. De procedure SHALL
+vastleggen dat het weghalen van de Ingress de eigenlijke cutover is, en dat die
+stap zonder een tweede DNS-wijziging niet terug te draaien is.
+
+#### Scenario: Route en Ingress bestaan naast elkaar
+
+- WHEN een tenant zowel een Ingress als een HTTPRoute voor dezelfde host heeft
+- THEN wijst het DNS-record naar ingress-nginx en gaat er geen verkeer over de
+  Gateway, ook niet gedeeltelijk

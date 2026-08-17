@@ -125,6 +125,49 @@ geweigerd, en `allow-headers` is teruggebracht tot alleen `X-Forwarded-For`.
 Dat repareren hoort niet in een migratie die pariteit moet aantonen. Apart
 gemeld.
 
+## Besluit 6 — het platform bezit de Gateway, de tenant bezit zijn route
+
+De eerste uitrol zette de canary-routes in cluster-infra, in een tijdelijke
+Application, zodat de generators die 84 tenants voeden tijdens de shakedown niet
+geraakt werden. Dat is opgeruimd: de routes staan nu in de charts van de tenants
+zelf.
+
+- `React-base/charts/woo-website/templates/httproute.yaml`, opt-in met
+  `gateway.frontend: true`
+- `Nextcloud-base/charts/tenant-httproute`, opt-in met `gateway.nextcloud: true`;
+  levert ook de `ReferenceGrant`, want die hoort in de namespace die iets
+  weggeeft
+
+Waarom dit de juiste indeling is: een route hoort bij de applicatie, precies
+zoals de Ingress die hij vervangt. Het alternatief — routes in de platformrepo —
+vereist dat cluster-infra `destinations` naar tenant-namespaces heeft, en dat is
+een privilege dat een platformrepo niet hoort te hebben. Die twee namespaces zijn
+weer uit het AppProject gehaald.
+
+Eén detail dat pas bij het bouwen bleek: het values-blok wordt **alleen geëmit
+als de tenant de vlag zet**, niet als `enabled: false`. Een blok dat altijd
+meegaat verandert de Application-spec van alle 84 tenants en laat ze allemaal
+hersyncen, ook al is de gerenderde uitvoer identiek. De golden-tests van
+react-base maakten dat zichtbaar: 8 bestaande cases wijzigden, na de aanpassing 0.
+
+De HTTP→HTTPS-redirect blijft wél in cluster-infra, en is hostname-loos gemaakt.
+Dat is geen tenantzaak maar Gateway-gedrag: zonder die route geeft poort 80 een
+404 waar nginx een 308 geeft.
+
+## Besluit 7 — wat de Nextcloud-kant nog tegenhoudt
+
+De frontends schalen meteen: één wildcard, één listener, hele vloot.
+
+Nextcloud-hosts niet. Die staan onder `commonground.nu` en hebben elk een eigen
+HTTP-01-certificaat, dus elke tenant vraagt een eigen listener op de gedeelde
+Gateway met een eigen `certificateRef`. Werkt voor een canary, niet voor 84.
+
+De oplossing is dezelfde die voor openwoo.app al genomen is: een DNS-01-wildcard
+voor `*.commonground.nu` en `*.accept.commonground.nu`. De zone staat bij
+Cloudflare, `letsencrypt-dns` bestaat. Dat lost tegelijk de HTTP-01-afhankelijkheid
+op die nu elke cutover blokkeert. Het is een aparte beslissing en staat als
+openstaand punt in `tasks.md`.
+
 ## Wat deze change bewust NIET oplost
 
 `allowedRoutes.namespaces.from: All` is even permissief als de huidige

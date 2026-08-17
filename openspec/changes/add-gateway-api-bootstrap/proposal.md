@@ -34,9 +34,14 @@ Deze change zet de nieuwe laag ernaast en bewijst hem op drie routes.
 - Eén gedeelde `Gateway` met `allowedRoutes.namespaces.from: All` — bewust
   net zo permissief als de huidige Ingress-situatie. Verscherpen is de
   eigenlijke winst van de migratie maar hoort in een eigen change.
-- Drie canary-`HTTPRoute`s **naast** de bestaande Ingress voor dezelfde host:
-  twee WOO-frontends (die bewijzen het platform) en de Nextcloud van
-  `canary-accept` (die bewijst de vertaling van timeouts, CORS en HSTS).
+- Canary-`HTTPRoute`s **naast** de bestaande Ingress voor dezelfde host: twee
+  WOO-frontends (die bewijzen het platform) en de Nextcloud van `canary-accept`
+  (die bewijst de vertaling van timeouts, CORS en HSTS).
+- Eigendomsverdeling: **het platform bezit de Gateway, de tenant bezit zijn
+  route.** De HTTPRoutes komen uit dezelfde generators die vandaag de Ingress
+  renderen (`React-base/charts/woo-website`,
+  `Nextcloud-base/charts/tenant-httproute`), opt-in per tenant. Cluster-infra
+  heeft daardoor geen schrijfrecht in tenant-namespaces.
 - `external-dns` leest ook `gateway-httproute`. Additief: zolang er geen
   HTTPRoute bestaat verandert er niets.
 - Élke clustermutatie is mens-werk: de vier bootstrap-applies en de
@@ -58,10 +63,11 @@ Deze change zet de nieuwe laag ernaast en bewijst hem op drie routes.
 ## Impact
 
 - Affected specs: `gateway-routing` (new)
-- Affected repos: `cluster-infra` (manifests, docs, verify); `Nextcloud-base`
-  en `react-base` alleen als leesbron — hun ApplicationSets worden niet
-  aangeraakt, de canary-routes staan tijdelijk in cluster-infra zodat de
-  generators die 84 tenants voeden buiten schot blijven
+- Affected repos: `cluster-infra` (Gateway, controller, CRD's, docs, verify);
+  `React-base` en `Nextcloud-base` (elk een route-template in hun eigen chart
+  plus een opt-in vlag in de generator). Bestaande tenants renderen
+  byte-identiek — het values-blok wordt alleen geëmit als de vlag er staat,
+  bewezen met de golden-tests van react-base
 - Cluster: een **tweede** OpenStack-loadbalancer met een eigen publiek IP,
   naast de `81.24.6.82` van nginx. Kostenpost en firewallregel.
 - Risk: middel — een nieuw dataplane naast het bestaande. Gemitigeerd doordat

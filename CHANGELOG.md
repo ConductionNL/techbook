@@ -26,6 +26,16 @@ live staat en hebben de scope veranderd — ze staan opgesomd onderaan
 tenant-Ingresses maar in de nginx-sidecar in de pod, en blijft daar onveranderd
 achter de HTTPRoute staan.
 
+Bijgewerkt later diezelfde dag, na de uitrol. Twee requirements erbij die uit
+metingen kwamen en niet uit de planning: **het platform bezit de Gateway, de
+tenant bezit zijn route** (routes komen uit de generators van React-base en
+Nextcloud-base, de platformrepo heeft geen schrijfrecht in tenantruimte), en
+**de cutover is het weghalen van de Ingress** — external-dns laat een bestaand
+record met rust zolang die Ingress bestaat, dus een nieuwe route verschuift geen
+verkeer. Fase 4 t/m 6 afgevinkt met de echte uitkomsten, inclusief het
+external-dns-incident (crashloop omdat de `gateway-httproute`-source vóór de
+CRD's landde) en de vier gemeten gedragsverschillen met nginx.
+
 ## 2026-08-10 — testisolatie: git-omgeving schoonvegen vóór elke aanroep
 
 - **Aanleiding, een echt incident.** De suite hieronder draaide als
