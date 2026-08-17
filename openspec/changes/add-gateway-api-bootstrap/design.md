@@ -150,6 +150,21 @@ meegaat verandert de Application-spec van alle 84 tenants en laat ze allemaal
 hersyncen, ook al is de gerenderde uitvoer identiek. De golden-tests van
 react-base maakten dat zichtbaar: 8 bestaande cases wijzigden, na de aanpassing 0.
 
+Aan de Nextcloud-kant speelt hetzelfde een niveau hoger, en daar is de oplossing
+anders. De route heeft een eigen chart nodig, dus een extra **source** op de
+tenant-Application — en dát verandert de spec van alle 84, ongeacht wat de chart
+rendert. Drie routes overwogen:
+
+| | |
+|---|---|
+| vierde source in `nextcloud-tenants` | simpel, maar raakt alle 84 Applications voor één canary |
+| `templatePatch` | kán niet: het is een merge-patch en die **vervangt** lijsten, dus de hele `sources`-lijst inclusief het inline values-blok van ruim honderd regels zou erin herhaald moeten worden — twee kopieën die uit elkaar lopen |
+| **aparte ApplicationSet met post-selector** | nul effect op de bestaande vloot; per gemigreerde tenant één kleine Application |
+
+Gekozen: `nextcloud-tenant-routes`, met dezelfde post-selector-mechaniek waarmee
+`react-tenants` al `frontend.enabled: false` overslaat. Een ontbrekende key
+matcht `In` niet, dus zonder opt-in wordt er niets gegenereerd.
+
 De HTTP→HTTPS-redirect blijft wél in cluster-infra, en is hostname-loos gemaakt.
 Dat is geen tenantzaak maar Gateway-gedrag: zonder die route geeft poort 80 een
 404 waar nginx een 308 geeft.

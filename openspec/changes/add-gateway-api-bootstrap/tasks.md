@@ -118,9 +118,14 @@ gevolgd. Staat als waarschuwing in `cluster-infra/docs/gateway-api.md`.
       golden-testcases; 20 van 20 groen en géén bestaande golden
       gewijzigd, dus de andere tenants renderen byte-identiek
 - [x] 6.2 `Nextcloud-base/charts/tenant-httproute` (HTTPRoute +
-      ReferenceGrant), vierde source in `nextcloud-tenants`, opt-in met
-      `gateway.nextcloud`. `sectionName` is verplicht en de chart faalt
-      hard zonder — zie design.md besluit 7
+      ReferenceGrant), uitgerold door een **aparte** ApplicationSet
+      `nextcloud-tenant-routes` met een post-selector op
+      `tenant.gateway.nextcloud`. Eerst als vierde source in
+      `nextcloud-tenants` gebouwd; teruggedraaid omdat dat de spec van
+      alle 84 tenant-Applications verandert. `templatePatch` lost dat
+      niet op: merge-patch vervangt lijsten, dus de hele `sources`-lijst
+      zou herhaald moeten worden. `sectionName` is verplicht en de chart
+      faalt hard zonder — zie design.md besluit 7
 - [x] 6.3 `tenant-canary-accept.yaml` zet beide vlaggen
 - [x] 6.4 Tijdelijke constructie weg uit cluster-infra: Application
       `gateway-canary-routes` en `envoy-gateway/canary-routes/`
@@ -133,9 +138,35 @@ gevolgd. Staat als waarschuwing in `cluster-infra/docs/gateway-api.md`.
       nieuwe `React-base/docs/GATEWAY-API.md` en
       `Nextcloud-base/docs/GATEWAY-API.md`, changelogs in drie repo's.
       `verify.sh` en pre-push groen in alle drie
-- [ ] 6.7 MENS: `kubectl delete application -n argocd
-      gateway-canary-routes` na de merge. Volgorde maakt niet uit — er
-      loopt geen verkeer over de Gateway
+- [x] 6.7 Dode chart `nextcloud-platform/platform/tenant-resources`
+      verwijderd — nooit door een ApplicationSet aangeroepen, nooit een
+      object in het cluster gehad. Legde wél drie onjuiste claims in
+      `HAVEN-COMPLIANCE.md` bloot; secties 1, 5, 7 en 9 gecorrigeerd met
+      de meting erbij. Zie "Bevindingen" hieronder
+- [ ] 6.8 MENS: de achtergebleven Application `gateway-canary-routes`
+      uit het cluster verwijderen na de merge. Volgorde maakt niet uit —
+      er loopt geen verkeer over de Gateway
+
+## Bevindingen buiten deze change (melden, niet oplossen)
+
+Gevonden bij het opruimen van `platform/tenant-resources`. Het
+compliance-document voerde die chart op als bron van vier controls; drie
+van die claims hielden geen stand tegen het cluster (gemeten 2026-08-17).
+
+- **Geen `PodDisruptionBudget` op de Nextcloud-workload.** Nul PDB's in
+  de hele vloot selecteren `app.kubernetes.io/name: nextcloud`; de enige
+  PDB in een tenant-namespace komt uit de postgresql-subchart. Beperkt
+  gevolg zolang `replicaCount` 1 is en HPA uit staat, maar het wordt een
+  echt gat zodra de stateless/S3-primary HA-route landt.
+- **Geen `NetworkPolicy` op de Nextcloud-pod.** Wat er in een
+  tenant-namespace staat komt uit de postgresql-subchart (1) en de
+  React-frontend (3). De namespace-labeling waar zo'n policy op zou
+  moeten sleutelen bestaat wél
+  (`managedNamespaceMetadata` in de tenant-ApplicationSet), alleen de
+  policy zelf ontbreekt. Een default-deny over ~50 draaiende tenants
+  hoort een eigen change met gefaseerde uitrol te zijn.
+- De `ServiceMonitor` bestaat wél per tenant, maar komt uit de upstream
+  nextcloud-chart en niet uit een eigen companion chart.
 
 ## 7. Verify & archive
 
